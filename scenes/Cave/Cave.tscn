@@ -55,12 +55,14 @@ scale = Vector2(5, 5)
 move_speed = 500.0
 objects_layer = NodePath("../cave")
 
-[node name="Camera2D" type="Camera2D" parent="Player" node_paths=PackedStringArray("player")]
-position = Vector2(-19.8, -121.399994)
-scale = Vector2(0.19999999, 0.19999999)
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(4, -88)
+scale = Vector2(0.99999994, 0.99999994)
 anchor_mode = 0
 limit_enabled = false
 limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("3_v1alu")
-player = NodePath("..")
+player = NodePath("../Player")
+
+[connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]
