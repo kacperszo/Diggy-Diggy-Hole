@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://s36lsgho4ulc" path="res://scenes/Player/player.gd" id="1_ky53y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ky53y"]
-radius = 11.0
+height = 22.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bvqhm"]
 atlas = ExtResource("1_h00vy")
@@ -74,12 +74,12 @@ animations = [{
 script = ExtResource("1_ky53y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_ky53y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_tl8lu")
 animation = &"walk right"
 autoplay = "walk right"
-frame_progress = 0.4971973
+frame_progress = 0.0664741
