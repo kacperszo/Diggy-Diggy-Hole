@@ -22,5 +22,5 @@ func update_position() -> void:
 		floorf(player.global_position.x / size.x),
 		floorf(player.global_position.y / size.y)
 	)
-	
+	print_debug(current_cell)
 	global_position = Vector2(current_cell) * size
