@@ -137,14 +137,22 @@ func safe_access_chunks(x, y):
 
 func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 	var directions := [
-		Vector2i(-2, 0),
 		Vector2i(0, -2),
 		Vector2i(0, 2),
+		Vector2i(1, -2),
+		Vector2i(-1, -2),
+		Vector2i(1, 2),
+		Vector2i(-1, 2),
+		Vector2i(-2, -1),
+		Vector2i(-2, -2),
+		Vector2i(-2, 1),
+		Vector2i(-2, 0),
+		Vector2i(-2, 2),
+		Vector2i(2, -1),
+		Vector2i(2, -2),
 		Vector2i(2, 0),
-		Vector2i(1, 1),
-		Vector2i(1, -1),
-		Vector2i(-1, -1),
-		Vector2i(-1, 1)
+		Vector2i(2, 1),
+		Vector2i(2, 2),
 	]
 	
 	for i in range(directions.size()):
@@ -157,7 +165,6 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 		
 		optional_chunk.should_be_regenerated = true;
 		
-
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
