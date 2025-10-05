@@ -46,7 +46,7 @@ sources/4 = SubResource("TileSetAtlasSource_negq6")
 [node name="Cave" type="Node2D"]
 
 [node name="LevelManager" parent="." instance=ExtResource("1_negq6")]
-position = Vector2(760, 2609)
+position = Vector2(17, 1402)
 
 [node name="cave" type="TileMapLayer" parent="."]
 position = Vector2(1076.79, 533.09)
@@ -70,3 +70,4 @@ script = ExtResource("3_v1alu")
 player = NodePath("../Player")
 
 [connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]
+[connection signal="cell_changed" from="Camera2D" to="LevelManager" method="_on_camera_2d_cell_changed"]

@@ -9,25 +9,14 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 var chunk_states = [];
 
 func _ready():
-	for x in range(mountain_width_chunk):
+	for a in range(mountain_width_chunk):
 		var row = [];
 		for y in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
-		
-	#chunk_states[2][2]=ChunkStats.new()
-	#chunk_states[2][2].x_cord = 2
-	#chunk_states[2][2].y_cord = 2
-	#chunk_states[2][2].moldiness = 1
-	#chunk_states[6][6]=ChunkStats.new()
-	#chunk_states[6][6].moldiness = 1
-	#chunk_states[6][6].x_cord = 6
-	#chunk_states[6][6].y_cord = 6
-		#
-	#for i in range(50):
-		#increase_growth()
-		#print_matrix()
 
+func update_tile(x: int, y: int, new_value: ChunkStats):
+	chunk_states[x][y] = new_value	;
 #func print_matrix() -> void:
 	#for y in range(mountain_height_chunk):
 		#var line := ""
@@ -42,10 +31,10 @@ func _ready():
 
 func update_tile(x:int, y:int, new_value:ChunkStats):
 	chunk_states[x][y] = new_value;
-	
+
 func choose_neighbour(x,y) -> void:
 	var neighbours: Array[ChunkStats] = []
-	
+
 	var directions := [
 		Vector2i(-1, 0),
 		Vector2i(0, -1),
@@ -64,13 +53,13 @@ func choose_neighbour(x,y) -> void:
 				neighbours.append(neighbour)
 			elif neighbour.moldiness == 0:
 				neighbours.append(neighbour)
-				
+
 	if neighbours.size() > 0:
 		var chosen: ChunkStats = neighbours.pick_random()
 		chosen.moldiness = 1
 		chunk_states[chosen.y_cord][chosen.x_cord] = chosen
 		chunk_states[y][x].children.append(chosen)
-		
+
 func has_neighbour(chunk: ChunkStats) -> bool:
 	var x:int = chunk.x_cord
 	var y:int = chunk.y_cord
@@ -90,7 +79,7 @@ func has_neighbour(chunk: ChunkStats) -> bool:
 				return true
 
 	return false
-	
+
 func count_active_neighbours(chunk: ChunkStats) -> int:
 	var x: int = chunk.x_cord
 	var y: int = chunk.y_cord
@@ -152,4 +141,93 @@ func increase_growth() -> void:
 		chosen_chunk.moldiness += 1
 	else:
 		choose_neighbour(chosen_chunk.x_cord, chosen_chunk.y_cord)
-		
+
+
+func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
+	var chunk_left: ChunkStats = null
+	var chunk_right: ChunkStats = null
+	var chunk_up: ChunkStats = null
+	var chunk_down: ChunkStats = null
+
+	var col = new_cell[0]
+	var row = new_cell[1]
+
+	if chunk_states[row][col] != null:
+		return
+
+	if col - 1 >= 0:
+		chunk_left = chunk_states[row][col-1]
+	if col + 1 < mountain_width_chunk:
+		chunk_right = chunk_states[row][col+1]
+	if row + 1 < mountain_height_chunk:
+		chunk_up = chunk_states[row+1][col]
+	if new_cell[1]-1 >= 0:
+		chunk_down = chunk_states[row-1][col]
+
+	var tiles = []
+	for x in range(TILES_HEIGHT_PER_CHUNK):
+		var row2 = [];
+		for y in range(TILES_WIDTH_PER_CHUNK):
+			row2.append(0)
+		tiles.append(row2);
+
+	if chunk_left != null:
+		if chunk_left.passage_right():
+			tiles[1][0] = 1
+	else:
+		if [true, false].pick_random():
+			tiles[1][0] = 1
+
+	if chunk_right != null:
+		if chunk_right.passage_left():
+			tiles[1][-1] = 1
+	else:
+		if [true, false].pick_random():
+			tiles[1][-1] = 1
+
+	if chunk_up != null:
+		if chunk_up.passage_down_index():
+			tiles[0][chunk_up.passage_down_index()] = 1
+	else:
+		if [true, false].pick_random():
+			tiles[0][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
+
+	if chunk_down != null:
+		if chunk_down.passage_up_index():
+			tiles[2][chunk_up.passage_up_index()] = 1
+	else:
+		if [true, false].pick_random():
+			tiles[2][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
+
+	var ones_positions: Array = []
+	for x in range(TILES_HEIGHT_PER_CHUNK):
+		for y in range(TILES_WIDTH_PER_CHUNK):
+			if tiles[x][y] == 1:
+				ones_positions.append(y)
+
+	if ones_positions.is_empty():
+		return  # no ones at all
+
+	var leftmost = ones_positions.min()
+	var rightmost = ones_positions.max()
+
+	for x in range(leftmost, rightmost + 1):
+		tiles[1][x] = 1
+
+	var tiles_stats = []
+	for x in range(TILES_HEIGHT_PER_CHUNK):
+		var row2 = [];
+		for y in range(TILES_WIDTH_PER_CHUNK):
+			var tile = TileStats.new()
+			if (x == 0 || x == 2) && tiles[x][y] == 1:
+				tile.is_ladder = true
+			if tiles[x][y] == 0:
+				tile.is_rock = true
+			row2.append(tile)
+		tiles_stats.append(row2)
+	var new_chunk = ChunkStats.new(tiles_stats)
+	new_chunk.x_cord = row
+	new_chunk.y_cord = col
+	chunk_states[row][col] = new_chunk
+
+
