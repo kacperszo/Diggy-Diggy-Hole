@@ -14,9 +14,9 @@ autoplay = true
 
 [node name="Skip button" type="Button" parent="VideoStreamPlayer"]
 layout_mode = 0
-offset_left = 1101.0
+offset_left = 1561.0
 offset_top = 897.0
-offset_right = 1399.0
+offset_right = 1859.0
 offset_bottom = 1034.0
 text = "Skip"
 

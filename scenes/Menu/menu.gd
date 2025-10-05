@@ -9,7 +9,7 @@ func _on_info_pressed() -> void:
 
 func _on_start_pressed() -> void:
 	
-	var new_scene = load("res://scenes/Cave/Cave.tscn") as PackedScene
+	var new_scene = load("res://scenes/mainGame.tscn") as PackedScene
 	if new_scene:
 		print("Scene loaded: Cave")
 		get_tree().change_scene_to_packed(new_scene)

@@ -1,28 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://dt31mgq70jnab"]
+[gd_scene load_steps=3 format=3 uid="uid://dt31mgq70jnab"]
 
 [ext_resource type="Script" uid="uid://b6w57w0435hxw" path="res://scenes/Menu/menu.gd" id="1_5wbsp"]
+[ext_resource type="Texture2D" uid="uid://bxvl0ppg7fyx0" path="res://assets/menu/menu_back_png.png" id="2_6jkkg"]
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_5wbsp")
 
 [node name="start" type="Button" parent="."]
-offset_left = 576.0
-offset_top = 363.0
-offset_right = 823.0
-offset_bottom = 470.0
+offset_left = 54.0
+offset_top = 152.0
+offset_right = 517.0
+offset_bottom = 305.0
 text = "Start game"
 
 [node name="info" type="Button" parent="."]
-offset_left = 579.0
-offset_top = 492.0
-offset_right = 827.0
-offset_bottom = 595.0
+offset_left = 62.0
+offset_top = 341.0
+offset_right = 521.0
+offset_bottom = 477.0
 text = "Info"
 
 [node name="InstructionsDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
 size = Vector2i(326, 100)
 dialog_text = "TUTAJ WYPISZEMY KLAWISZE I CO ROBIĄ"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
+visibility_layer = 512
+position = Vector2(960, 550)
+texture = ExtResource("2_6jkkg")
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="info" to="." method="_on_info_pressed"]
