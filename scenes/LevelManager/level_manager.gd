@@ -215,7 +215,7 @@ func generate_map(new_cell: Vector2i) -> void:
 	var col = new_cell[0]
 	var row = new_cell[1]
 
-	if chunk_states[row][col] != null and chunk_states[row][col].should_be_regenerated==false:
+	if chunk_states[row][col] != null and chunk_states[row][col].tiles != null and chunk_states[row][col].should_be_regenerated==false:
 		return
 
 	if col - 1 >= 0:
@@ -281,6 +281,10 @@ func generate_map(new_cell: Vector2i) -> void:
 		tiles[2][0] = 0
 		tiles[0][0] = 0
 		
+		tiles[1][1] = 1
+		tiles[1][2] = 1
+		tiles[1][3] = 1
+		
 	if row == 0:
 		tiles[0][1] = 0
 		tiles[0][0] = 0
@@ -329,7 +333,7 @@ func generate_map(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 		new_chunk.is_runic = chunk_states[row][col].is_runic
 	chunk_states[row][col] = new_chunk
-	new_chunk.draw(tile_map)
+	
 
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	increase_growth();
@@ -338,7 +342,7 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	generate_map(new_cell);
 	var col = new_cell[0]
 	var row = new_cell[1]
-
+	chunk_states[row][col].draw(tile_map)
 	mark_chunks_to_regenerate(row, col)
 
 
