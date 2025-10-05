@@ -19,9 +19,9 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
+	generate_map(Vector2i(0, 0));
 	generate_source(Vector2i(0, 1));
 	generate_runic_room(Vector2i(1, 1));
-	is_first_chunk = true;
 
 	camera_pos = Vector2i(0,0)
 
@@ -191,6 +191,7 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 
 func generate_source(new_cell: Vector2i) -> void:
 	generate_map(new_cell)
+	print_debug(new_cell)
 	chunk_states[new_cell[1]][new_cell[0]].set_moldiness()
 	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
 	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
@@ -272,8 +273,30 @@ func generate_map(new_cell: Vector2i) -> void:
 	var rightmost = ones_positions.max()
 
 	if is_first_chunk:
-		leftmost = 0
+		leftmost = 1
 		rightmost = 3
+		tiles[1][0] = 0 # is_rock = true
+		tiles[2][0] = 0
+		tiles[0][0] = 0
+		
+	if row == 0:
+		tiles[0][1] = 0
+		tiles[0][0] = 0
+		tiles [0][2] = 0
+		tiles [0][3] = 0
+	elif row == mountain_height_chunk:
+		tiles[2][0] = 0
+		tiles[2][1] = 0
+		tiles[2][2] = 0
+		tiles[2][3] = 0
+	if col == 0:
+		tiles[0][0] = 0
+		tiles[0][1] = 0
+		tiles[0][2] = 0
+	elif col == mountain_width_chunk:
+		tiles[3][0] = 0
+		tiles[3][1] = 0
+		tiles[3][2] = 0
 
 	for x in range(leftmost, rightmost + 1):
 		tiles[1][x] = 1
