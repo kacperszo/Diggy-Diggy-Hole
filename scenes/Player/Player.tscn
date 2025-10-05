@@ -1,85 +1,32 @@
-[gd_scene load_steps=13 format=3 uid="uid://b20eaiufbw8v6"]
+[gd_scene load_steps=5 format=3 uid="uid://b20eaiufbw8v6"]
 
-[ext_resource type="Texture2D" uid="uid://drv8kinpgpvfn" path="res://assets/Dwarf Sprite Sheet 1.3v.png" id="1_h00vy"]
 [ext_resource type="Script" uid="uid://s36lsgho4ulc" path="res://scenes/Player/player.gd" id="1_ky53y"]
+[ext_resource type="Texture2D" uid="uid://dwtmv2tyouu8y" path="res://assets/DwarfDud_still.png" id="2_ky53y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ky53y"]
-height = 22.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bvqhm"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(0, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ved6o"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(64, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xcisb"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(128, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_socpp"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(192, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fxc31"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(256, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_puxyr"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(320, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mmokv"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(384, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dqp0f"]
-atlas = ExtResource("1_h00vy")
-region = Rect2(448, 32, 64, 32)
+radius = 60.0
+height = 120.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tl8lu"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bvqhm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ved6o")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xcisb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_socpp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fxc31")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_puxyr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mmokv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dqp0f")
+"texture": ExtResource("2_ky53y")
 }],
 "loop": true,
-"name": &"walk right",
-"speed": 10.0
+"name": &"new_animation",
+"speed": 5.0
 }]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_ky53y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(-1, 4)
 shape = SubResource("CapsuleShape2D_ky53y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(9, -10)
 sprite_frames = SubResource("SpriteFrames_tl8lu")
-animation = &"walk right"
-autoplay = "walk right"
-frame_progress = 0.43218735
+animation = &"new_animation"
+frame_progress = 0.31248856

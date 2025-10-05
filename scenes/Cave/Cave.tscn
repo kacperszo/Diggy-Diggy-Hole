@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dv0qnd0aa7x5u"]
+[gd_scene load_steps=27 format=3 uid="uid://dv0qnd0aa7x5u"]
 
 [ext_resource type="PackedScene" uid="uid://b20eaiufbw8v6" path="res://scenes/Player/Player.tscn" id="1_0e53k"]
 [ext_resource type="Texture2D" uid="uid://bui1s5g3ak0vy" path="res://assets/Drabina.png" id="1_n35xe"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://cgnxp4lxuovx4" path="res://assets/molded1.png" id="7_eakmq"]
 [ext_resource type="Texture2D" uid="uid://cntyy5q1274s6" path="res://assets/pochodnia.png" id="8_1vx74"]
 [ext_resource type="Texture2D" uid="uid://biimvhbbsms4l" path="res://assets/rock.png" id="9_aawtn"]
+[ext_resource type="Texture2D" uid="uid://85hw7dofsv2n" path="res://assets/runa_pelna.png" id="9_xbtnc"]
+[ext_resource type="Texture2D" uid="uid://c4c8iewatmm0x" path="res://assets/runa_pusta.png" id="10_056v7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y6fsi"]
 texture = ExtResource("1_n35xe")
@@ -32,6 +34,16 @@ texture = ExtResource("2_y6fsi")
 texture_region_size = Vector2i(360, 360)
 0:0/0 = 0
 0:0/0/custom_data_0 = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oec05"]
+texture = ExtResource("10_056v7")
+texture_region_size = Vector2i(360, 360)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x41q5"]
+texture = ExtResource("9_xbtnc")
+texture_region_size = Vector2i(360, 360)
+0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1vx74"]
 texture = ExtResource("3_8cang")
@@ -150,6 +162,8 @@ sources/3 = SubResource("TileSetAtlasSource_aawtn")
 sources/6 = SubResource("TileSetAtlasSource_xvcnq")
 sources/7 = SubResource("TileSetAtlasSource_xbtnc")
 sources/9 = SubResource("TileSetAtlasSource_056v7")
+sources/10 = SubResource("TileSetAtlasSource_oec05")
+sources/11 = SubResource("TileSetAtlasSource_x41q5")
 
 [node name="Cave" type="Node2D"]
 
@@ -163,7 +177,6 @@ tile_map = NodePath("../cave")
 
 [node name="Player" parent="." node_paths=PackedStringArray("objects_layer") instance=ExtResource("1_0e53k")]
 position = Vector2(499, 626.00006)
-scale = Vector2(5, 5)
 move_speed = 500.0
 objects_layer = NodePath("../cave")
 

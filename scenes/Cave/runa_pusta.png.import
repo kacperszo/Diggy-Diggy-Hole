@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds4a8sj0agehw"
-path="res://.godot/imported/background4a.png-6f3953437bd2d1fb60a7c52a4e5eb175.ctex"
+uid="uid://cd7lqq5urbgo0"
+path="res://.godot/imported/runa_pusta.png-c1b4d526483b60e2727552a4750a8fc8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/PixelFantasy_Caves_1.0/background4a.png"
-dest_files=["res://.godot/imported/background4a.png-6f3953437bd2d1fb60a7c52a4e5eb175.ctex"]
+source_file="res://scenes/Cave/runa_pusta.png"
+dest_files=["res://.godot/imported/runa_pusta.png-c1b4d526483b60e2727552a4750a8fc8.ctex"]
 
 [params]
 

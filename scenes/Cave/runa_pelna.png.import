@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f1paprmakloh"
-path="res://.godot/imported/mainlev_build.png-20fb2f91e60fb40985f7630589930060.ctex"
+uid="uid://48hgmrxoa4a2"
+path="res://.godot/imported/runa_pelna.png-336cadbcd66edd8dcfd8e86fd4dbafcb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/PixelFantasy_Caves_1.0/mainlev_build.png"
-dest_files=["res://.godot/imported/mainlev_build.png-20fb2f91e60fb40985f7630589930060.ctex"]
+source_file="res://scenes/Cave/runa_pelna.png"
+dest_files=["res://.godot/imported/runa_pelna.png-336cadbcd66edd8dcfd8e86fd4dbafcb.ctex"]
 
 [params]
 

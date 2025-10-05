@@ -9,6 +9,8 @@ signal player_interact(player_pos_in_tail_map: Vector2i)
 @export var objects_layer: TileMapLayer
 @export var poisonTolerance: float = 100.0
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D  # Lub AnimatedSprite2D jeśli używasz animacji
+
 var on_ladder := false
 
 func _physics_process(delta: float) -> void:
@@ -35,6 +37,12 @@ func _physics_process(delta: float) -> void:
 			velocity.y += gravity * delta
 		else:
 			velocity.y = 0
+	
+	# Flipowanie sprite'a w zależności od kierunku ruchu
+	if move_vector.x < 0:
+		sprite.flip_h = true
+	elif move_vector.x > 0:
+		sprite.flip_h = false
 	
 	move_and_slide()
 

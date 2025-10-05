@@ -1,6 +1,7 @@
 extends Node2D
 
 signal fire_count_incresed(new_fire_count: int)
+signal runic_fire_count_incresed(new_runic_fire_count: int)
 @export var mountain_height_chunk = 50;
 @export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
@@ -12,6 +13,7 @@ signal change_volume(volume: int)
 var is_first_chunk = true;
 
 var fire_count = 0
+var runic_fire_count = 0
 var chunk_states = [];
 var camera_pos: Vector2i
 
@@ -21,7 +23,6 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
-	generate_map(Vector2i(0, 0));
 	generate_source(Vector2i(0, 1));
 	generate_runic_room(Vector2i(1, 1));
 
@@ -43,7 +44,7 @@ func print_matrix() -> void:
 	print("\n")  # odstęp między iteracjami
 
 func choose_neighbour(x,y) -> void:
-	var neighbours: Array[ChunkStats] = []
+	var neighbours: Array[Array] = []
 
 	var directions := [
 		Vector2i(-1, 0),
@@ -54,24 +55,16 @@ func choose_neighbour(x,y) -> void:
 	for dir in directions:
 		var nx:int = x + dir.x
 		var ny:int = y+ dir.y
-		if nx >= 0 and nx < mountain_width_chunk and ny >= 0 and ny < mountain_height_chunk:
-			var neighbour: ChunkStats = chunk_states[ny][nx]
-			if neighbour == null:
-				#neighbour = ChunkStats.new()
-				generate_source(Vector2i(nx, ny));
-				neighbour = chunk_states[ny][nx];
-				neighbour.x_cord=nx
-				neighbour.y_cord = ny
-				neighbours.append(neighbour)
-			elif neighbour.moldiness == 0:
-				neighbours.append(neighbour)
+		if nx >= 0 and nx < mountain_height_chunk and ny >= 0 and ny < mountain_width_chunk:
+			neighbours.append([nx, ny])
 
 	if neighbours.size() > 0:
-		var chosen: ChunkStats = neighbours.pick_random()
-		chosen.set_moldiness()
-		chunk_states[chosen.y_cord][chosen.x_cord] = chosen
-		#print('row: ',y, 'col ', x)
-		#chunk_states[y][x].children.append(chosen)
+		var chosen: Array = neighbours.pick_random()
+		if chunk_states[chosen[0]][chosen[1]] != null:
+			chunk_states[chosen[0]][chosen[1]].set_moldiness()
+		else:
+			chunk_states[chosen[0]][chosen[1]] = ChunkStats.new()
+			chunk_states[chosen[0]][chosen[1]].set_moldiness()
 
 func has_neighbour(chunk: ChunkStats) -> bool:
 	var x:int = chunk.x_cord
@@ -84,10 +77,10 @@ func has_neighbour(chunk: ChunkStats) -> bool:
 	]
 
 	for dir in directions:
-		var nx:int = x + dir.x
-		var ny:int = y + dir.y
-		if nx >= 0 and nx < mountain_width_chunk and ny >= 0 and ny < mountain_height_chunk:
-			var neighbour: ChunkStats = chunk_states[ny][nx]
+		var nx: int = x + dir.x
+		var ny: int = y + dir.y
+		if nx >= 0 and nx < mountain_height_chunk and ny >= 0 and ny < mountain_width_chunk:
+			var neighbour: ChunkStats = chunk_states[nx][ny]
 			if neighbour==null or neighbour.moldiness == 0:
 				return true
 
@@ -107,8 +100,8 @@ func count_active_neighbours(chunk: ChunkStats) -> int:
 	for dir in directions:
 		var nx : int = x + dir.x
 		var ny : int = y + dir.y
-		if nx >= 0 and nx < mountain_width_chunk and ny >= 0 and ny < mountain_height_chunk:
-			var neighbour: ChunkStats = chunk_states[ny][nx]
+		if nx >= 0 and nx < mountain_height_chunk and ny >= 0 and ny < mountain_width_chunk:
+			var neighbour: ChunkStats = chunk_states[nx][ny]
 			if neighbour!=null and neighbour.moldiness > 0:
 				count += 1
 
@@ -119,7 +112,7 @@ func increase_growth() -> void:
 
 	for row in range(mountain_height_chunk):
 		for column in range(mountain_width_chunk):
-			var chunk: ChunkStats = chunk_states[column][row]
+			var chunk: ChunkStats = chunk_states[row][column]
 			if chunk!=null and chunk.moldiness > 0:
 				if chunk.moldiness == 3 and not has_neighbour(chunk):
 					continue
@@ -156,7 +149,7 @@ func increase_growth() -> void:
 		choose_neighbour(chosen_chunk.x_cord, chosen_chunk.y_cord)
 
 func safe_access_chunks(x, y):
-	if x >= 0 and x < mountain_width_chunk and y >= 0  and y < mountain_height_chunk:
+	if x >= 0 and x < mountain_height_chunk and y >= 0  and y < mountain_width_chunk:
 		return chunk_states[x][y]
 	else:
 		return null
@@ -192,14 +185,13 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 		optional_chunk.should_be_regenerated = true;
 
 func generate_source(new_cell: Vector2i) -> void:
-	generate_map(new_cell)
-	print_debug(new_cell)
+	chunk_states[new_cell[1]][new_cell[0]] = ChunkStats.new()
 	chunk_states[new_cell[1]][new_cell[0]].set_moldiness()
 	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
 	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
 
 func generate_runic_room(new_cell: Vector2i) -> void:
-	generate_map(new_cell)
+	chunk_states[new_cell[1]][new_cell[0]] = ChunkStats.new()
 	chunk_states[new_cell[1]][new_cell[0]].is_runic = true
 	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
 	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
@@ -214,9 +206,6 @@ func generate_map(new_cell: Vector2i) -> void:
 
 	var col = new_cell[0]
 	var row = new_cell[1]
-
-	if chunk_states[row][col] != null and chunk_states[row][col].tiles != null and chunk_states[row][col].should_be_regenerated==false:
-		return
 
 	if col - 1 >= 0:
 		chunk_left = chunk_states[row][col-1]
@@ -234,28 +223,28 @@ func generate_map(new_cell: Vector2i) -> void:
 			row2.append(0)
 		tiles.append(row2);
 
-	if chunk_left != null:
+	if chunk_left != null && chunk_left.tiles.size() > 0:
 		if chunk_left.passage_right():
 			tiles[1][0] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[1][0] = 1
 
-	if chunk_right != null:
+	if chunk_right != null && chunk_right.tiles.size() > 0:
 		if chunk_right.passage_left():
 			tiles[1][-1] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[1][-1] = 1
 
-	if chunk_up != null:
+	if chunk_up != null && chunk_up.tiles.size() > 0:
 		if chunk_up.passage_down_index() != null:
 			tiles[0][chunk_up.passage_down_index()] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[0][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
 
-	if chunk_down != null:
+	if chunk_down != null && chunk_down.tiles.size() > 0:
 		if chunk_down.passage_up_index() != null:
 			tiles[2][chunk_up.passage_up_index()] = 1
 	else:
@@ -268,41 +257,38 @@ func generate_map(new_cell: Vector2i) -> void:
 			if tiles[x][y] == 1:
 				ones_positions.append(y)
 
-	if ones_positions.is_empty():
-		return  # no ones at all
-
 	var leftmost = ones_positions.min()
 	var rightmost = ones_positions.max()
 
-	if is_first_chunk:
-		leftmost = 1
-		rightmost = 3
-		tiles[1][0] = 0 # is_rock = true
-		tiles[2][0] = 0
-		tiles[0][0] = 0
-		
-		tiles[1][1] = 1
-		tiles[1][2] = 1
-		tiles[1][3] = 1
-		
-	if row == 0:
-		tiles[0][1] = 0
-		tiles[0][0] = 0
-		tiles [0][2] = 0
-		tiles [0][3] = 0
-	elif row == mountain_height_chunk:
-		tiles[2][0] = 0
-		tiles[2][1] = 0
-		tiles[2][2] = 0
-		tiles[2][3] = 0
-	if col == 0:
-		tiles[0][0] = 0
-		tiles[0][1] = 0
-		tiles[0][2] = 0
-	elif col == mountain_width_chunk:
-		tiles[3][0] = 0
-		tiles[3][1] = 0
-		tiles[3][2] = 0
+	#if is_first_chunk:
+		#leftmost = 1
+		#rightmost = 3
+		#tiles[1][0] = 0 # is_rock = true
+		#tiles[2][0] = 0
+		#tiles[0][0] = 0
+#
+		#tiles[1][1] = 1
+		#tiles[1][2] = 1
+		#tiles[1][3] = 1
+#
+	#if row == 0:
+		#tiles[0][1] = 0
+		#tiles[0][0] = 0
+		#tiles [0][2] = 0
+		#tiles [0][3] = 0
+	#elif row == mountain_height_chunk:
+		#tiles[2][0] = 0
+		#tiles[2][1] = 0
+		#tiles[2][2] = 0
+		#tiles[2][3] = 0
+	#if col == 0:
+		#tiles[0][0] = 0
+		#tiles[0][1] = 0
+		#tiles[0][2] = 0
+	#elif col == mountain_width_chunk:
+		#tiles[3][0] = 0
+		#tiles[3][1] = 0
+		#tiles[3][2] = 0
 
 	for x in range(leftmost, rightmost + 1):
 		tiles[1][x] = 1
@@ -333,7 +319,6 @@ func generate_map(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 		new_chunk.is_runic = chunk_states[row][col].is_runic
 	chunk_states[row][col] = new_chunk
-	
 
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	increase_growth();
@@ -343,6 +328,7 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var col = new_cell[0]
 	var row = new_cell[1]
 	chunk_states[row][col].draw(tile_map)
+
 	mark_chunks_to_regenerate(row, col)
 
 
@@ -379,7 +365,11 @@ func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
 		return
 	chunk.mold_lock = true
 	# put light there
-	# TODO if runes room place other
+	if chunk.is_runic:
+		tile_map.set_cell(player_pos_in_tail_map, 11, Vector2i(0,0))
+		runic_fire_count+=1
+		runic_fire_count_incresed.emit(runic_fire_count)
+		return
 	tile_map.set_cell(player_pos_in_tail_map, 7, Vector2i(0,0))
 	fire_count+=1
 	fire_count_incresed.emit(fire_count)
