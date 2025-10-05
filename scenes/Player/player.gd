@@ -5,6 +5,7 @@ class_name Player
 @export var climb_speed: float = 150.0
 @export var gravity: float = 600.0
 @export var objects_layer: TileMapLayer
+@export var poisonTolerance: float = 100.0
 
 var on_ladder := false
 

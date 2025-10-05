@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var mountain_height_chunk = 10;
-@export var mountain_width_chunk = 10;
-
+@export var mountain_width_chunk = 20;
+@export var tile_map: TileMapLayer
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
 
@@ -227,3 +227,5 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	new_chunk.x_cord = row
 	new_chunk.y_cord = col
 	chunk_states[row][col] = new_chunk
+	new_chunk.draw(tile_map)
+	

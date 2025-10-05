@@ -12,7 +12,6 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var mold_lock = false;
 @export var x_cord = 0;
 @export var y_cord = 0;
-
 enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
 
 func update(x:int, y:int, new_value: TileStats):
@@ -50,3 +49,12 @@ func get_type():
 func increase_moldiness(value:int):
 	if not mold_lock:
 		moldiness += value;
+func draw(tile_map: TileMapLayer):
+	# narysowac podlege
+	tile_map.set_cell(Vector2(4*x_cord, 3*y_cord), 5, Vector2i(0,0))
+	tile_map.set_cell(Vector2(4*x_cord+1, 3*y_cord), 5, Vector2i(0,0))
+	tile_map.set_cell(Vector2(4*x_cord+2, 3*y_cord), 5, Vector2i(0,0))
+	tile_map.set_cell(Vector2(4*x_cord+3, 3*y_cord), 5, Vector2i(0,0))
+	# narusowac drabine
+	
+	# narysowac sufit
