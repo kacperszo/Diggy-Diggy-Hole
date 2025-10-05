@@ -36,6 +36,5 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	print_debug("Zmiana kamery do: ", new_cell)

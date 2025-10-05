@@ -14,7 +14,7 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var y_cord = 0;
 
 var should_be_regenerated = false;
-enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
+enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED, RUNIC}
 
 func update(x:int, y:int, new_value: TileStats):
 	tiles[x][y] = new_value
@@ -38,7 +38,9 @@ func passage_right():
 	return tiles[1][3]
 	
 func get_type():
-	if moldiness < 25:
+	if is_runic:
+		return TerrainType.RUNIC
+	elif moldiness < 25:
 		return TerrainType.ROCKY
 	elif moldiness < 50:
 		return TerrainType.MOLD_STAGE_1
