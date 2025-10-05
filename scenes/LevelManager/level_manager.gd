@@ -304,6 +304,7 @@ func generate_map(new_cell: Vector2i) -> void:
 	new_chunk.y_cord = col
 	if chunk_states[row][col] != null:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
+		new_chunk.is_runic = chunk_states[row][col].is_runic
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
 

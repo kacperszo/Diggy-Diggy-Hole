@@ -2,7 +2,6 @@ class_name ChunkStats
 extends Resource
 
 @export var tiles = [];
-#var children: Array[ChunkStats] = [];
 
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
@@ -108,15 +107,15 @@ func drew_runic_room(tile_map: TileMapLayer):
 	if tiles[0][3].is_rock:
 		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0), 1)
 
-	#narysowac korytarz
-	if tiles[1][0].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-1), 5, Vector2i(0,0))
-	if tiles[1][1].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-1), 5, Vector2i(0,0))
-	if tiles[1][2].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-1), 5, Vector2i(0,0))
-	if tiles[1][3].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 5, Vector2i(0,0))
+	# nayrsowac poochodnie
+	if not tiles[1][0].is_ladder and not tiles[1][0].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+	elif not tiles[1][1].is_ladder and not tiles[1][1].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+	elif not tiles[1][2].is_ladder and not tiles[1][2].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+	elif not tiles[1][3].is_ladder and not tiles[1][3].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
 
 
 func draw_regular_room(tile_map: TileMapLayer):
