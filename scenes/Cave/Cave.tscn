@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://dv0qnd0aa7x5u"]
+[gd_scene load_steps=9 format=3 uid="uid://dv0qnd0aa7x5u"]
 
 [ext_resource type="PackedScene" uid="uid://b20eaiufbw8v6" path="res://scenes/Player/Player.tscn" id="1_0e53k"]
 [ext_resource type="PackedScene" uid="uid://dpd7kdgmctdq0" path="res://scenes/LevelManager/level_manager.tscn" id="1_negq6"]
 [ext_resource type="Texture2D" uid="uid://deqdau5xgv173" path="res://assets/tileset_-_3x3.png" id="1_v1alu"]
+[ext_resource type="Texture2D" uid="uid://c78t1txwfis0o" path="res://assets/double_skaa.png" id="3_qh4if"]
 [ext_resource type="Script" uid="uid://d1vdp8mqvesv6" path="res://scenes/Cave/camera_2d.gd" id="3_v1alu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_negq6"]
@@ -34,6 +35,14 @@ texture_region_size = Vector2i(360, 360)
 4:2/0 = 0
 5:2/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n35xe"]
+texture = ExtResource("3_qh4if")
+texture_region_size = Vector2i(360, 360)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -150.07025, 180, -149.33823, 180, 180, -180, 180)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -150.07025, 180, -149.33823, 180, 180, -180, 180)
+
 [sub_resource type="TileSet" id="TileSet_negq6"]
 tile_size = Vector2i(360, 360)
 physics_layer_0/collision_layer = 1
@@ -42,25 +51,25 @@ custom_data_layer_0/type = 1
 custom_data_layer_1/name = ""
 custom_data_layer_1/type = 0
 sources/4 = SubResource("TileSetAtlasSource_negq6")
+sources/5 = SubResource("TileSetAtlasSource_n35xe")
 
 [node name="Cave" type="Node2D"]
 
-[node name="LevelManager" parent="." instance=ExtResource("1_negq6")]
-position = Vector2(17, 1402)
-
 [node name="cave" type="TileMapLayer" parent="."]
-position = Vector2(1076.79, 533.09)
-tile_map_data = PackedByteArray("AAD9/wAABAABAAAAAAD+/wAABAABAAAAAAD//wAABAABAAAAAAABAAAABAABAAAAAAACAAAABAABAAAAAAADAAAABAABAAAAAAAAAP7/BAAAAAAAADABAP7/BAABAAAAADACAP7/BAABAAAAADADAP7/BAABAAAAADD///7/BAABAAAAADD+//7/BAABAAAAADD9//7/BAABAAAAADAAAAAABAAAAAAAAAAAAP//BAAAAAAAAQAAAP3/BAAAAAAAAAABAP3/BAABAAAAAAACAP3/BAABAAAAAAADAP3/BAABAAAAAAD///3/BAABAAAAAAD+//3/BAABAAAAAAD9//3/BAABAAAAAAA=")
+position = Vector2(0, 720)
 tile_set = SubResource("TileSet_negq6")
 
+[node name="LevelManager" parent="." node_paths=PackedStringArray("tile_map") instance=ExtResource("1_negq6")]
+position = Vector2(17, 1402)
+tile_map = NodePath("../cave")
+
 [node name="Player" parent="." node_paths=PackedStringArray("objects_layer") instance=ExtResource("1_0e53k")]
-position = Vector2(103, 519)
+position = Vector2(499, 626.00006)
 scale = Vector2(5, 5)
 move_speed = 500.0
 objects_layer = NodePath("../cave")
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
-position = Vector2(4, -88)
 scale = Vector2(0.99999994, 0.99999994)
 anchor_mode = 0
 limit_enabled = false
@@ -69,5 +78,5 @@ position_smoothing_enabled = true
 script = ExtResource("3_v1alu")
 player = NodePath("../Player")
 
-[connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]
 [connection signal="cell_changed" from="Camera2D" to="LevelManager" method="_on_camera_2d_cell_changed"]
+[connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]
