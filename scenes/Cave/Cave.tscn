@@ -163,7 +163,6 @@ tile_map = NodePath("../cave")
 
 [node name="Player" parent="." node_paths=PackedStringArray("objects_layer") instance=ExtResource("1_0e53k")]
 position = Vector2(499, 626.00006)
-scale = Vector2(5, 5)
 move_speed = 500.0
 objects_layer = NodePath("../cave")
 
