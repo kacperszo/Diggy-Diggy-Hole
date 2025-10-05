@@ -1,7 +1,8 @@
 class_name ChunkStats
 extends Resource
 
-var tiles = [];
+@export var tiles = [];
+var children: Array[ChunkStats] = [];
 
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
@@ -9,7 +10,6 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var moldiness = 0;
 @export var is_runic = 0;
 @export var mold_lock = false;
-
 @export var x_cord = 0;
 @export var y_cord = 0;
 enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
@@ -28,16 +28,14 @@ func passage_down_index():
 		if tiles[x][2]:
 			return x;
 	return null;
-	
+
 func passage_left():
 	return tiles[1][0]
-	
+
 func passage_right():
 	print(tiles)
 	return tiles[1][3]
 	
-func _init(t):
-	tiles = t
 	
 func get_type():
 	if moldiness < 25:
