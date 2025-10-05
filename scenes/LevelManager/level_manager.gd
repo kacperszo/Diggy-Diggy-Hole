@@ -14,20 +14,30 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
-
+		
+	chunk_states[4][4] = ChunkStats.new()
+	chunk_states[4][4].moldiness = 1
+	chunk_states[4][4].x_cord = 4
+	chunk_states[4][4].y_cord = 4
+	chunk_states[7][7] = ChunkStats.new()
+	chunk_states[7][7].moldiness = 1
+	chunk_states[7][7].x_cord = 7
+	chunk_states[7][7].y_cord = 7
+	
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
-#func print_matrix() -> void:
-	#for y in range(mountain_height_chunk):
-		#var line := ""
-		#for x in range(mountain_width_chunk):
-			#var chunk: ChunkStats = chunk_states[x][y]
-			#if chunk == null:
-				#line += "0 "
-			#else:
-				#line += str(chunk.moldiness) + " "
-		#print(line)
-	#print("\n")  # odstęp między iteracjami
+	
+func print_matrix() -> void:
+	for y in range(mountain_height_chunk):
+		var line := ""
+		for x in range(mountain_width_chunk):
+			var chunk: ChunkStats = chunk_states[x][y]
+			if chunk == null:
+				line += "0 "
+			else:
+				line += str(chunk.moldiness) + " "
+		print(line)
+	print("\n")  # odstęp między iteracjami
 
 func choose_neighbour(x,y) -> void:
 	var neighbours: Array[ChunkStats] = []
@@ -99,6 +109,7 @@ func count_active_neighbours(chunk: ChunkStats) -> int:
 	return count
 
 func increase_growth() -> void:
+	print('increasing')
 	var weighted_pool: Array[ChunkStats] = []
 
 	for row in range(mountain_height_chunk):
@@ -141,6 +152,8 @@ func increase_growth() -> void:
 
 
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
+	increase_growth();
+	print_matrix();
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
 	var chunk_up: ChunkStats = null
