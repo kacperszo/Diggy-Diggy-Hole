@@ -23,7 +23,7 @@ text = "Info"
 [node name="InstructionsDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
 size = Vector2i(326, 100)
-dialog_text = "TUTAJ WYPISZEMY KLAWISZE I CO ROBIĄ"
+dialog_text = "You can move using the WASD keys, to place a torch you must press E"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 show_behind_parent = true
