@@ -244,6 +244,8 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	new_chunk.tiles = tiles_stats
 	new_chunk.x_cord = row
 	new_chunk.y_cord = col
+	if chunk_states[row][col] != null:
+		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
 
