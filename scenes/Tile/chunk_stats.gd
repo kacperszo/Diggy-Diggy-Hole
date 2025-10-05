@@ -12,6 +12,8 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var mold_lock = false;
 @export var x_cord = 0;
 @export var y_cord = 0;
+
+var should_be_regenerated = false;
 enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
 
 func update(x:int, y:int, new_value: TileStats):
@@ -51,21 +53,15 @@ func increase_moldiness(value:int):
 	if not mold_lock:
 		moldiness += value;
 		
-func draw(tile_map: TileMapLayer):
-	print('aaa', x_cord, y_cord)
-	
+func draw(tile_map: TileMapLayer):	
 	# narysowac podlege
 	if tiles[2][0].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][1].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][2].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][3].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 5, Vector2i(0,0))
 		
 	# narusowac drabine
