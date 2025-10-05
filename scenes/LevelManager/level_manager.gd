@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var mountain_height_chunk = 10;
-@export var mountain_width_chunk = 20;
+@export var mountain_height_chunk = 50;
+@export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
@@ -174,10 +174,10 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		chunk_left = chunk_states[row][col-1]
 	if col + 1 < mountain_width_chunk:
 		chunk_right = chunk_states[row][col+1]
-	if row + 1 < mountain_height_chunk:
-		chunk_up = chunk_states[row+1][col]
-	if new_cell[1]-1 >= 0:
-		chunk_down = chunk_states[row-1][col]
+	if row - 1 >= 0:
+		chunk_up = chunk_states[row-1][col]
+	if row + 1 >= mountain_height_chunk:
+		chunk_down = chunk_states[row+1][col]
 
 	var tiles = []
 	for x in range(TILES_HEIGHT_PER_CHUNK):
@@ -201,14 +201,15 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 			tiles[1][-1] = 1
 
 	if chunk_up != null:
-		if chunk_up.passage_down_index():
+		print('chunk up', chunk_up.passage_down_index())
+		if chunk_up.passage_down_index() != null:
 			tiles[0][chunk_up.passage_down_index()] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[0][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
 
 	if chunk_down != null:
-		if chunk_down.passage_up_index():
+		if chunk_down.passage_up_index() != null:
 			tiles[2][chunk_up.passage_up_index()] = 1
 	else:
 		if [true, false].pick_random():
@@ -238,8 +239,11 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 				tile.is_ladder = true
 			if tiles[x][y] == 0:
 				tile.is_rock = true
+			if x == 1 && tiles[1][y] == 1 && tiles[0][y] == 1:
+				tile.is_ladder = true
 			row2.append(tile)
 		tiles_stats.append(row2)
+		
 	var new_chunk = ChunkStats.new()
 	new_chunk.tiles = tiles_stats
 	new_chunk.x_cord = row
@@ -248,5 +252,5 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
-
+	
 	mark_chunks_to_regenerate(row, col)
