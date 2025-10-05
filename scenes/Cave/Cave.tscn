@@ -1,10 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://dv0qnd0aa7x5u"]
+[gd_scene load_steps=13 format=3 uid="uid://dv0qnd0aa7x5u"]
 
 [ext_resource type="PackedScene" uid="uid://b20eaiufbw8v6" path="res://scenes/Player/Player.tscn" id="1_0e53k"]
+[ext_resource type="Texture2D" uid="uid://bui1s5g3ak0vy" path="res://assets/Drabina.png" id="1_n35xe"]
 [ext_resource type="PackedScene" uid="uid://dpd7kdgmctdq0" path="res://scenes/LevelManager/level_manager.tscn" id="1_negq6"]
 [ext_resource type="Texture2D" uid="uid://deqdau5xgv173" path="res://assets/tileset_-_3x3.png" id="1_v1alu"]
+[ext_resource type="Texture2D" uid="uid://dsv77ofjfafrc" path="res://assets/DrabinaSolo.png" id="2_y6fsi"]
 [ext_resource type="Texture2D" uid="uid://c78t1txwfis0o" path="res://assets/double_skaa.png" id="3_qh4if"]
 [ext_resource type="Script" uid="uid://d1vdp8mqvesv6" path="res://scenes/Cave/camera_2d.gd" id="3_v1alu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y6fsi"]
+texture = ExtResource("1_n35xe")
+texture_region_size = Vector2i(360, 360)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -151.89996, -68.1824, -155.35223, -65.769226, 180, -180, 180)
+0:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(68.18237, -148.4477, 64.7301, 180, 180, 180, 180, -148.4477)
+0:0/0/custom_data_0 = true
+0:0/1 = 1
+0:0/1/flip_v = true
+0:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -148.4477, -65.83479, -147.89537, -67.56094, 180, -180, 180)
+0:0/1/physics_layer_0/polygon_1/points = PackedVector2Array(65.35153, -147.89537, 180, -146.16924, 180, 180, 67.077705, 180)
+0:0/1/custom_data_0 = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sjiv5"]
+texture = ExtResource("2_y6fsi")
+texture_region_size = Vector2i(360, 360)
+0:0/0 = 0
+0:0/0/custom_data_0 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_negq6"]
 texture = ExtResource("1_v1alu")
@@ -38,8 +60,12 @@ texture_region_size = Vector2i(360, 360)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n35xe"]
 texture = ExtResource("3_qh4if")
 texture_region_size = Vector2i(360, 360)
+0:0/next_alternative_id = 2
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -150.07025, 180, -149.33823, 180, 180, -180, 180)
+0:0/1 = 1
+0:0/1/flip_v = true
+0:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -148.4477, 180, -146.72156, 180, 180, -180, 180)
 1:0/0 = 0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -150.07025, 180, -149.33823, 180, 180, -180, 180)
 
@@ -52,6 +78,8 @@ custom_data_layer_1/name = ""
 custom_data_layer_1/type = 0
 sources/4 = SubResource("TileSetAtlasSource_negq6")
 sources/5 = SubResource("TileSetAtlasSource_n35xe")
+sources/0 = SubResource("TileSetAtlasSource_y6fsi")
+sources/1 = SubResource("TileSetAtlasSource_sjiv5")
 
 [node name="Cave" type="Node2D"]
 
