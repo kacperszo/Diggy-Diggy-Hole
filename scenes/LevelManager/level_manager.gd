@@ -7,6 +7,8 @@ signal fire_count_incresed(new_fire_count: int)
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
 
+signal change_volume(volume: int)
+
 var is_first_chunk = true;
 
 var fire_count = 0
@@ -324,14 +326,19 @@ func _on_camera_2d_change_background(background: TextureRect, new_cell: Vector2i
 	match type:
 		0:
 			background.texture = preload("res://assets/background.png")
+			change_volume.emit(-80)
 		1:
 			background.texture = preload("res://assets/molded1.png")
+			change_volume.emit(-30)
 		2:
-			background.texture = preload("res://assets/molded2.png")
-		3:
 			background.texture = preload("res://assets/molded3.png")
+			change_volume.emit(-20)
+		3:
+			background.texture = preload("res://assets/molded2.png")
+			change_volume.emit(-10)
 		_:
 			background.texture = preload("res://assets/background.png")
+			change_volume.emit(-80)
 
 
 func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
