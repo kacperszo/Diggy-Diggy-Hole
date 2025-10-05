@@ -35,7 +35,6 @@ func passage_left():
 	return tiles[1][0]
 
 func passage_right():
-	print(tiles)
 	return tiles[1][3]
 	
 	
@@ -66,16 +65,12 @@ func draw(tile_map: TileMapLayer):
 func drew_runic_room(tile_map: TileMapLayer):
 		# narysowac podlege
 	if tiles[2][0].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][1].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][2].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 5, Vector2i(0,0))
 	if tiles[2][3].is_rock:
-		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 5, Vector2i(0,0))
 
 	# narusowac drabine
