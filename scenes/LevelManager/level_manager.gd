@@ -175,7 +175,7 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var col = new_cell[0]
 	var row = new_cell[1]
 
-	if chunk_states[row][col] != null and not chunk_states[row][col].should_be_regenerated:
+	if chunk_states[row][col] != null and chunk_states[row][col].should_be_regenerated==false:
 		return
 
 	if col - 1 >= 0:
@@ -209,7 +209,6 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 			tiles[1][-1] = 1
 
 	if chunk_up != null:
-		print('chunk up', chunk_up.passage_down_index())
 		if chunk_up.passage_down_index() != null:
 			tiles[0][chunk_up.passage_down_index()] = 1
 	else:
@@ -234,6 +233,10 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 
 	var leftmost = ones_positions.min()
 	var rightmost = ones_positions.max()
+	
+	if is_first_chunk:
+		leftmost = 0
+		rightmost = 3
 
 	for x in range(leftmost, rightmost + 1):
 		tiles[1][x] = 1
