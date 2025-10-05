@@ -50,11 +50,75 @@ func get_type():
 func increase_moldiness(value:int):
 	if not mold_lock:
 		moldiness += value;
-		
+
 func draw(tile_map: TileMapLayer):
-	print('aaa', x_cord, y_cord)
+	# Serce Gory narysuj
 	
-	# narysowac podlege
+	# Runowy pokoj narysuj
+	if is_runic:
+		drew_runic_room(tile_map)
+	else:
+	# Zwykle narysuj pomieszczenie
+		draw_regular_room(tile_map)
+		
+
+func drew_runic_room(tile_map: TileMapLayer):
+		# narysowac podlege
+	if tiles[2][0].is_rock:
+		print("floor tile exists")
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 5, Vector2i(0,0))
+	if tiles[2][1].is_rock:
+		print("floor tile exists")
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 5, Vector2i(0,0))
+	if tiles[2][2].is_rock:
+		print("floor tile exists")
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 5, Vector2i(0,0))
+	if tiles[2][3].is_rock:
+		print("floor tile exists")
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 5, Vector2i(0,0))
+		
+	# narusowac drabine
+	if tiles[2][0].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 4, Vector2i(0,0))
+	if tiles[2][1].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 4, Vector2i(0,0))
+	if tiles[2][2].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 4, Vector2i(0,0))
+	if tiles[2][3].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 4, Vector2i(0,0))
+		
+	if tiles[0][0].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 4, Vector2i(0,0))
+	if tiles[0][1].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 4, Vector2i(0,0))
+	if tiles[0][2].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 4, Vector2i(0,0))
+	if tiles[0][3].is_ladder:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 4, Vector2i(0,0))
+	
+	# narysowac sufit
+	if tiles[0][0].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 5, Vector2i(0,0))
+	if tiles[0][1].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 5, Vector2i(0,0))
+	if tiles[0][2].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0))
+	if tiles[0][3].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0))
+		
+	#narysowac korytarz
+	if tiles[1][0].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-1), 5, Vector2i(0,0))
+	if tiles[1][1].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-1), 5, Vector2i(0,0))
+	if tiles[1][2].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-1), 5, Vector2i(0,0))
+	if tiles[1][3].is_rock:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 5, Vector2i(0,0))
+
+
+func draw_regular_room(tile_map: TileMapLayer):
+		# narysowac podlege
 	if tiles[2][0].is_rock:
 		print("floor tile exists")
 		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 5, Vector2i(0,0))
