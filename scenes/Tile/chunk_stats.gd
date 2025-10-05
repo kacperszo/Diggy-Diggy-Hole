@@ -21,6 +21,19 @@ func passage_up_index():
 			return x;
 	return null;
 	
+func passage_down_index():
+	for x in range(TILES_WIDTH_PER_CHUNK):
+		if tiles[x][2]:
+			return x;
+	return null;
+	
+func passage_left():
+	return tiles[1][0]
+	
+func passage_right():
+	print(tiles)
+	return tiles[1][3]
+	
 func _init(t):
 	tiles = t
 	
