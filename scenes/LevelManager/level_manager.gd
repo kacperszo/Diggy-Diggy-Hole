@@ -62,6 +62,7 @@ func choose_neighbour(x,y) -> void:
 		var chosen: ChunkStats = neighbours.pick_random()
 		chosen.moldiness = 1
 		chunk_states[chosen.y_cord][chosen.x_cord] = chosen
+		#print('row: ',y, 'col ', x)
 		chunk_states[y][x].children.append(chosen)
 
 func has_neighbour(chunk: ChunkStats) -> bool:
@@ -192,8 +193,6 @@ func generate_source(new_cell: Vector2i) -> void:
 	chunk_states[1][0].y_cord = 1
 
 func generate_map(new_cell: Vector2i) -> void:
-
-func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
 	var chunk_up: ChunkStats = null
@@ -296,7 +295,6 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
-
 
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	increase_growth();
