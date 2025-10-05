@@ -6,6 +6,7 @@ extends Node2D
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
 
+var is_first_chunk = true;
 
 var chunk_states = [];
 
@@ -248,6 +249,10 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 				tile.is_rock = true
 			if x == 1 && tiles[1][y] == 1 && tiles[0][y] == 1:
 				tile.is_ladder = true
+				
+			if is_first_chunk and x == 1 and y == 1:
+				tile.is_rock = false;
+				is_first_chunk = false;
 			row2.append(tile)
 		tiles_stats.append(row2)
 		

@@ -37,7 +37,6 @@ func passage_left():
 func passage_right():
 	return tiles[1][3]
 	
-	
 func get_type():
 	if moldiness < 25:
 		return TerrainType.ROCKY
@@ -51,6 +50,7 @@ func get_type():
 func increase_moldiness(value:int):
 	if not mold_lock:
 		moldiness += value;
+		
 func draw(tile_map: TileMapLayer):
 	# Serce Gory narysuj
 
