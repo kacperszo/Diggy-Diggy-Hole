@@ -1,0 +1,35 @@
+Index: scenes/mainGame.tscn
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[gd_scene load_steps=4 format=3 uid=\"uid://c8wu3fuskusrb\"]\n\n[ext_resource type=\"PackedScene\" uid=\"uid://dv0qnd0aa7x5u\" path=\"res://scenes/Cave/Cave.tscn\" id=\"1_mw4qg\"]\n[ext_resource type=\"Shader\" uid=\"uid://dpg4ewqk0wigt\" path=\"res://scenes/VignetteShader.gdshader\" id=\"2_mmojm\"]\n\n[sub_resource type=\"ShaderMaterial\" id=\"ShaderMaterial_iuu36\"]\nshader = ExtResource(\"2_mmojm\")\nshader_parameter/outer_radius = 1.0\nshader_parameter/intensity = 0.8\nshader_parameter/softness = 0.5\n\n[node name=\"MainGame\" type=\"Node2D\"]\n\n[node name=\"CanvasLayer\" type=\"CanvasLayer\" parent=\".\"]\n\n[node name=\"Control\" type=\"Control\" parent=\"CanvasLayer\"]\nlayout_mode = 3\nanchors_preset = 15\nanchor_right = 1.0\nanchor_bottom = 1.0\ngrow_horizontal = 2\ngrow_vertical = 2\n\n[node name=\"SubViewportContainer\" type=\"SubViewportContainer\" parent=\"CanvasLayer/Control\"]\nlayout_mode = 0\noffset_left = 250.0\noffset_right = 1690.0\noffset_bottom = 1080.0\n\n[node name=\"SubViewport\" type=\"SubViewport\" parent=\"CanvasLayer/Control/SubViewportContainer\"]\nhandle_input_locally = false\nsize = Vector2i(1440, 1080)\nrender_target_update_mode = 4\n\n[node name=\"Cave\" parent=\"CanvasLayer/Control/SubViewportContainer/SubViewport\" instance=ExtResource(\"1_mw4qg\")]\n\n[node name=\"ColorRect\" type=\"ColorRect\" parent=\"CanvasLayer/Control\"]\nlayout_mode = 0\noffset_right = 250.0\noffset_bottom = 1080.0\ncolor = Color(0.015686275, 0.015686275, 0.015686275, 1)\n\n[node name=\"ColorRect2\" type=\"ColorRect\" parent=\"CanvasLayer/Control\"]\nlayout_mode = 0\noffset_left = 1666.0\noffset_right = 1916.0\noffset_bottom = 1080.0\ncolor = Color(0.003921569, 0.003921569, 0.003921569, 1)\n\n[node name=\"GameVignette\" type=\"ColorRect\" parent=\"CanvasLayer/Control\"]\nmaterial = SubResource(\"ShaderMaterial_iuu36\")\nlayout_mode = 0\noffset_right = 1920.0\noffset_bottom = 1080.0\n\n[node name=\"Label\" type=\"Label\" parent=\"CanvasLayer/Control\"]\nlayout_mode = 0\noffset_left = 3.0\noffset_top = -1.0\noffset_right = 222.0\noffset_bottom = 96.0\ntheme_override_font_sizes/font_size = 42\ntext = \"\uD83D\uDD25  0/5\"\nhorizontal_alignment = 1\nvertical_alignment = 1\n\n[editable path=\"CanvasLayer/Control/SubViewportContainer/SubViewport/Cave\"]\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/scenes/mainGame.tscn b/scenes/mainGame.tscn
+--- a/scenes/mainGame.tscn	(revision 055ae36d573ec1b9eb44119fd8a2b8d14ce41379)
++++ b/scenes/mainGame.tscn	(date 1759643269726)
+@@ -1,7 +1,9 @@
+-[gd_scene load_steps=4 format=3 uid="uid://c8wu3fuskusrb"]
++[gd_scene load_steps=6 format=3 uid="uid://c8wu3fuskusrb"]
+ 
+ [ext_resource type="PackedScene" uid="uid://dv0qnd0aa7x5u" path="res://scenes/Cave/Cave.tscn" id="1_mw4qg"]
+ [ext_resource type="Shader" uid="uid://dpg4ewqk0wigt" path="res://scenes/VignetteShader.gdshader" id="2_mmojm"]
++[ext_resource type="AudioStream" uid="uid://rnbltdlc4t4u" path="res://assets/audio/soundTrack/long_soundtrack.mp3" id="3_iuu36"]
++[ext_resource type="AudioStream" uid="uid://dxhwx3mycpml7" path="res://assets/audio/soundTrack/szepty_long.mp3" id="4_gb8pf"]
+ 
+ [sub_resource type="ShaderMaterial" id="ShaderMaterial_iuu36"]
+ shader = ExtResource("2_mmojm")
+@@ -64,4 +66,13 @@
+ horizontal_alignment = 1
+ vertical_alignment = 1
+ 
++[node name="soundtrack" type="AudioStreamPlayer2D" parent="."]
++stream = ExtResource("3_iuu36")
++volume_db = 4.038
++autoplay = true
++
++[node name="scaryVoices" type="AudioStreamPlayer2D" parent="."]
++stream = ExtResource("4_gb8pf")
++autoplay = true
++
+ [editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]

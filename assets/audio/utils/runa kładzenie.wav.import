@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://1kcvwiyq0crr"
+path="res://.godot/imported/runa kładzenie.wav-cd1f94ea12996d9ceab3de7ce40cd3d5.sample"
+
+[deps]
+
+source_file="res://assets/audio/utils/runa kładzenie.wav"
+dest_files=["res://.godot/imported/runa kładzenie.wav-cd1f94ea12996d9ceab3de7ce40cd3d5.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
