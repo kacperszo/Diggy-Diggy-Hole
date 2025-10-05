@@ -17,6 +17,7 @@ func _ready():
 			row.append(null)
 		chunk_states.append(row);
 	generate_source(Vector2i(0, 1));
+	is_first_chunk = true;
 
 
 func update_tile(x: int, y: int, new_value: ChunkStats):
@@ -63,7 +64,7 @@ func choose_neighbour(x,y) -> void:
 		chosen.moldiness = 1
 		chunk_states[chosen.y_cord][chosen.x_cord] = chosen
 		#print('row: ',y, 'col ', x)
-		chunk_states[y][x].children.append(chosen)
+		#chunk_states[y][x].children.append(chosen)
 
 func has_neighbour(chunk: ChunkStats) -> bool:
 	var x:int = chunk.x_cord
@@ -219,8 +220,6 @@ func generate_map(new_cell: Vector2i) -> void:
 		for y in range(TILES_WIDTH_PER_CHUNK):
 			row2.append(0)
 		tiles.append(row2);
-
-	print_debug("tiles created")
 
 	if chunk_left != null:
 		if chunk_left.passage_right():
