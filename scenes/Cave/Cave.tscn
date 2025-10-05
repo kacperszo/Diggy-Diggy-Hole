@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dv0qnd0aa7x5u"]
+[gd_scene load_steps=23 format=3 uid="uid://dv0qnd0aa7x5u"]
 
 [ext_resource type="PackedScene" uid="uid://b20eaiufbw8v6" path="res://scenes/Player/Player.tscn" id="1_0e53k"]
 [ext_resource type="Texture2D" uid="uid://bui1s5g3ak0vy" path="res://assets/Drabina.png" id="1_n35xe"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cjt3iq5ff7nnq" path="res://assets/molded3.png" id="4_eakmq"]
 [ext_resource type="Texture2D" uid="uid://cgnxp4lxuovx4" path="res://assets/molded1.png" id="7_eakmq"]
 [ext_resource type="Texture2D" uid="uid://cntyy5q1274s6" path="res://assets/pochodnia.png" id="8_1vx74"]
+[ext_resource type="Texture2D" uid="uid://biimvhbbsms4l" path="res://assets/rock.png" id="9_aawtn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y6fsi"]
 texture = ExtResource("1_n35xe")
@@ -126,6 +127,13 @@ texture = ExtResource("8_1vx74")
 texture_region_size = Vector2i(360, 360)
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_056v7"]
+texture = ExtResource("9_aawtn")
+texture_region_size = Vector2i(360, 360)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -180, 180, -180, 180, 180, -180, 180)
+
 [sub_resource type="TileSet" id="TileSet_negq6"]
 tile_size = Vector2i(360, 360)
 physics_layer_0/collision_layer = 1
@@ -141,6 +149,7 @@ sources/2 = SubResource("TileSetAtlasSource_1vx74")
 sources/3 = SubResource("TileSetAtlasSource_aawtn")
 sources/6 = SubResource("TileSetAtlasSource_xvcnq")
 sources/7 = SubResource("TileSetAtlasSource_xbtnc")
+sources/9 = SubResource("TileSetAtlasSource_056v7")
 
 [node name="Cave" type="Node2D"]
 
