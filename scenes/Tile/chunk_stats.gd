@@ -36,6 +36,7 @@ func passage_right():
 	print(tiles)
 	return tiles[1][3]
 	
+	
 func get_type():
 	if moldiness < 25:
 		return TerrainType.ROCKY
