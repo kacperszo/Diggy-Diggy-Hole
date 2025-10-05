@@ -28,7 +28,9 @@ offset_right = 1690.0
 offset_bottom = 1080.0
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/Control/SubViewportContainer"]
+handle_input_locally = false
 size = Vector2i(1440, 1080)
+render_target_update_mode = 4
 
 [node name="Cave" parent="CanvasLayer/Control/SubViewportContainer/SubViewport" instance=ExtResource("1_mw4qg")]
 
@@ -50,3 +52,16 @@ material = SubResource("ShaderMaterial_iuu36")
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = -1.0
+offset_right = 222.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 42
+text = "🔥  0/5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]
