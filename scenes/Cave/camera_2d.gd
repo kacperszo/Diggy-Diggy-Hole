@@ -3,7 +3,6 @@ class_name CellCamera
 signal cell_changed(new_cell: Vector2i)
 
 @export var player: Player
-
 var _previous_cell: Vector2i = Vector2i.MAX
 
 func _ready() -> void:
@@ -19,7 +18,7 @@ func update_position() -> void:
 	if not player:
 		return
 	
-	var size: Vector2 = Vector2(get_viewport_rect().size) / zoom
+	var size: Vector2 = Vector2(360*4,360*3)
 	
 	# Poprawne obliczenie current_cell z obsługą wartości ujemnych
 	var current_cell: Vector2i = Vector2i(
