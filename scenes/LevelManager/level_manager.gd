@@ -171,7 +171,6 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 		Vector2i(-2, -1),
 		Vector2i(-2, -2),
 		Vector2i(-2, 1),
-		Vector2i(-2, 0),
 		Vector2i(-2, 2),
 		Vector2i(2, -1),
 		Vector2i(2, -2),
@@ -195,7 +194,7 @@ func generate_source(new_cell: Vector2i) -> void:
 	chunk_states[new_cell[1]][new_cell[0]].set_moldiness()
 	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
 	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
-	
+
 func generate_runic_room(new_cell: Vector2i) -> void:
 	generate_map(new_cell)
 	chunk_states[new_cell[1]][new_cell[0]].is_runic = true
@@ -315,6 +314,24 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var row = new_cell[1]
 
 	mark_chunks_to_regenerate(row, col)
+
+
+func _on_camera_2d_change_background(background: TextureRect, new_cell: Vector2i) -> void:
+	var col = new_cell[0]
+	var row = new_cell[1]
+
+	var type  = chunk_states[row][col].get_type()
+	match type:
+		0:
+			background.texture = preload("res://assets/background.png")
+		1:
+			background.texture = preload("res://assets/molded1.png")
+		2:
+			background.texture = preload("res://assets/molded2.png")
+		3:
+			background.texture = preload("res://assets/molded3.png")
+		_:
+			background.texture = preload("res://assets/background.png")
 
 
 func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:

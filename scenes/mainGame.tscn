@@ -41,7 +41,7 @@ render_target_update_mode = 4
 [node name="Camera2D" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave" index="3"]
 position_smoothing_enabled = false
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" index="0"]
+[node name="background" type="TextureRect" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" index="0"]
 z_index = -1
 offset_left = -129.0
 offset_right = 1551.0
@@ -89,5 +89,7 @@ stream = ExtResource("4_gb8pf")
 autoplay = true
 
 [connection signal="fire_count_incresed" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="CanvasLayer/Control/Label" method="_on_level_manager_fire_count_incresed"]
+
+[connection signal="change_background" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" to="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" method="_on_camera_2d_change_background"]
 
 [editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]
