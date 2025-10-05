@@ -2,7 +2,6 @@ class_name ChunkStats
 extends Resource
 
 @export var tiles = [];
-#var children: Array[ChunkStats] = [];
 
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
