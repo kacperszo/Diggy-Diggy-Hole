@@ -228,4 +228,5 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	new_chunk.y_cord = col
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
+
 	
