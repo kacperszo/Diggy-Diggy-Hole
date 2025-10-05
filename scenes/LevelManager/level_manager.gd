@@ -206,6 +206,9 @@ func generate_map(new_cell: Vector2i) -> void:
 
 	var col = new_cell[0]
 	var row = new_cell[1]
+	
+	if chunk_states[row][col] != null and chunk_states[row][col].tiles.size() > 0 and chunk_states[row][col].should_be_regenerated==false:
+		return
 
 	if col - 1 >= 0:
 		chunk_left = chunk_states[row][col-1]
@@ -213,7 +216,7 @@ func generate_map(new_cell: Vector2i) -> void:
 		chunk_right = chunk_states[row][col+1]
 	if row - 1 >= 0:
 		chunk_up = chunk_states[row-1][col]
-	if row + 1 >= mountain_height_chunk:
+	if row + 1 <= mountain_height_chunk:
 		chunk_down = chunk_states[row+1][col]
 
 	var tiles = []
@@ -246,7 +249,7 @@ func generate_map(new_cell: Vector2i) -> void:
 
 	if chunk_down != null && chunk_down.tiles.size() > 0:
 		if chunk_down.passage_up_index() != null:
-			tiles[2][chunk_up.passage_up_index()] = 1
+			tiles[2][chunk_down.passage_up_index()] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[2][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
@@ -256,13 +259,16 @@ func generate_map(new_cell: Vector2i) -> void:
 		for y in range(TILES_WIDTH_PER_CHUNK):
 			if tiles[x][y] == 1:
 				ones_positions.append(y)
+				
+	if ones_positions.size() == 0:
+		return
 
 	var leftmost = ones_positions.min()
 	var rightmost = ones_positions.max()
 
-	#if is_first_chunk:
-		#leftmost = 1
-		#rightmost = 3
+	if is_first_chunk:
+		leftmost = 0
+		rightmost = 3
 		#tiles[1][0] = 0 # is_rock = true
 		#tiles[2][0] = 0
 		#tiles[0][0] = 0
