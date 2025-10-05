@@ -14,7 +14,7 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var y_cord = 0;
 
 var should_be_regenerated = false;
-enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
+enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED, RUNIC}
 
 func update(x:int, y:int, new_value: TileStats):
 	tiles[x][y] = new_value
@@ -38,7 +38,9 @@ func passage_right():
 	return tiles[1][3]
 	
 func get_type():
-	if moldiness < 25:
+	if is_runic:
+		return TerrainType.RUNIC
+	elif moldiness < 25:
 		return TerrainType.ROCKY
 	elif moldiness < 50:
 		return TerrainType.MOLD_STAGE_1
@@ -75,32 +77,32 @@ func drew_runic_room(tile_map: TileMapLayer):
 
 	# narusowac drabine
 	if tiles[2][0].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][1].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][2].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][3].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 0, Vector2i(0,0))
 
 	if tiles[0][0].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 0, Vector2i(0,0))
 	if tiles[0][1].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 0, Vector2i(0,0))
 	if tiles[0][2].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 0, Vector2i(0,0))
 	if tiles[0][3].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 0, Vector2i(0,0))
 
 	# narysowac sufit
 	if tiles[0][0].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][1].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][2].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][3].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0), 1)
 
 	#narysowac korytarz
 	if tiles[1][0].is_rock:
@@ -125,32 +127,32 @@ func draw_regular_room(tile_map: TileMapLayer):
 		
 	# narusowac drabine
 	if tiles[2][0].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][1].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][2].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord), 0, Vector2i(0,0))
 	if tiles[2][3].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord), 0, Vector2i(0,0))
 		
 	if tiles[0][0].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 0, Vector2i(0,0), 1)
 	if tiles[0][1].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 0, Vector2i(0,0), 1)
 	if tiles[0][2].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 0, Vector2i(0,0), 1)
 	if tiles[0][3].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 4, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 0, Vector2i(0,0), 1)
 	
 	# narysowac sufit
 	if tiles[0][0].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][1].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][2].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][3].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0), 1)
 		
 	#narysowac korytarz
 	if tiles[1][0].is_rock:
@@ -163,10 +165,10 @@ func draw_regular_room(tile_map: TileMapLayer):
 		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 5, Vector2i(0,0))
 
 	if tiles[1][0].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-1), 4, Vector2i(0,0), 1)
+		tile_map.set_cell(Vector2(4*y_cord, 3*x_cord-1), 1, Vector2i(0,0))
 	if tiles[1][1].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-1), 4, Vector2i(0,0), 1)
+		tile_map.set_cell(Vector2(4*y_cord+1, 3*x_cord-1), 1, Vector2i(0,0))
 	if tiles[1][2].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-1), 4, Vector2i(0,0), 1)
+		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-1), 1, Vector2i(0,0))
 	if tiles[1][3].is_ladder:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 4, Vector2i(0,0), 1)
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 1, Vector2i(0,0))
