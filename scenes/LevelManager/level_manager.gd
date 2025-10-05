@@ -11,7 +11,7 @@ var chunk_states = [];
 func _ready():
 	for a in range(mountain_width_chunk):
 		var row = [];
-		for y in range(mountain_height_chunk):
+		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
 
