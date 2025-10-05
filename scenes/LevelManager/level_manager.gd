@@ -345,7 +345,6 @@ func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
 	chunk.mold_lock = true
 	# put light there
 	# TODO if runes room place other
-	# TODO jak Lidka skonczy sprite ogniska to dac zamiast spawnowanie drabin xD
-	tile_map.set_cell(player_pos_in_tail_map, 4, Vector2i(0,0))
+	tile_map.set_cell(player_pos_in_tail_map, 7, Vector2i(0,0))
 	fire_count+=1
 	fire_count_incresed.emit(fire_count)

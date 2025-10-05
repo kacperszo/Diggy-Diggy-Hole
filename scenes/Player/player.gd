@@ -42,7 +42,7 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	print_debug("Zmiana kamery do: ", new_cell)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_released("interact"):
+	if Input.is_action_just_released("interact") and not on_ladder:
 		print_debug("Interact!")
 		var local_pos := objects_layer.to_local(global_position)
 		var tile_pos := objects_layer.local_to_map(local_pos)
