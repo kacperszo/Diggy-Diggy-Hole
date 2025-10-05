@@ -308,11 +308,11 @@ func generate_map(new_cell: Vector2i) -> void:
 		var row2 = [];
 		for y in range(TILES_WIDTH_PER_CHUNK):
 			var tile = TileStats.new()
-			if (x == 0 || x == 2) && tiles[x][y] == 1:
+			if (x == 0 or x == 2) and tiles[x][y] == 1:
 				tile.is_ladder = true
 			if tiles[x][y] == 0:
 				tile.is_rock = true
-			if x == 1 && tiles[1][y] == 1 && tiles[0][y] == 1:
+			if x == 1 and tiles[1][y] == 1 and tiles[0][y] == 1:
 				tile.is_ladder = true
 
 			if is_first_chunk and x == 1 and y == 1:
