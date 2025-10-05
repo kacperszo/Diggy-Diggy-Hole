@@ -10,6 +10,9 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 @export var is_runic = 0;
 @export var mold_lock = false;
 
+@export var x_cord = 0;
+@export var y_cord = 0;
+
 enum TerrainType {ROCKY, MOLD_STAGE_1, MOLD_STAGE_2, MOLDED}
 
 func update(x:int, y:int, new_value: TileStats):
