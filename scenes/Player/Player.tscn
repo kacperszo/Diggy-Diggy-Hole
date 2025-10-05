@@ -29,4 +29,4 @@ shape = SubResource("CapsuleShape2D_ky53y")
 position = Vector2(13, -70)
 sprite_frames = SubResource("SpriteFrames_tl8lu")
 animation = &"new_animation"
-frame_progress = 0.3586779
+frame_progress = 0.31248856
