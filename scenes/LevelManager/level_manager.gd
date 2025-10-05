@@ -304,3 +304,21 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var row = new_cell[1]
 
 	mark_chunks_to_regenerate(row, col)
+
+
+func _on_camera_2d_change_background(background: TextureRect, new_cell: Vector2i) -> void:
+	var col = new_cell[0]
+	var row = new_cell[1]
+
+	var type  = chunk_states[row][col].get_type()
+	match type:
+		0:
+			background.texture = preload("res://assets/background.png")
+		1:
+			background.texture = preload("res://assets/molded1.png")
+		2:
+			background.texture = preload("res://assets/molded2.png")
+		3:
+			background.texture = preload("res://assets/molded3.png")
+		_:
+			background.texture = preload("res://assets/background.png")

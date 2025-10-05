@@ -1,6 +1,7 @@
 extends Camera2D
 class_name CellCamera
 signal cell_changed(new_cell: Vector2i)
+signal change_background(background: TextureRect, new_cell: Vector2i)
 
 @export var player: Player
 var _previous_cell: Vector2i = Vector2i.MAX
@@ -30,6 +31,7 @@ func update_position() -> void:
 	if current_cell != _previous_cell:
 		_previous_cell = current_cell
 		cell_changed.emit(current_cell)
+		change_background.emit($background, current_cell)
 		print_debug("Cell changed to: ", current_cell)
 	
 	global_position = Vector2(current_cell) * size

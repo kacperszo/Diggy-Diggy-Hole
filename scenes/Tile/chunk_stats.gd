@@ -40,11 +40,11 @@ func passage_right():
 func get_type():
 	if is_runic:
 		return TerrainType.RUNIC
-	elif moldiness < 25:
+	elif moldiness < 1:
 		return TerrainType.ROCKY
-	elif moldiness < 50:
+	elif moldiness < 2:
 		return TerrainType.MOLD_STAGE_1
-	elif moldiness < 75:
+	elif moldiness < 3:
 		return TerrainType.MOLD_STAGE_2
 	else:
 		return TerrainType.MOLDED

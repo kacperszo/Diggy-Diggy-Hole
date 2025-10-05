@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8wu3fuskusrb"]
+[gd_scene load_steps=7 format=3 uid="uid://c8wu3fuskusrb"]
 
 [ext_resource type="Texture2D" uid="uid://c7e0llaidmtbo" path="res://assets/background.png" id="1_iuu36"]
 [ext_resource type="PackedScene" uid="uid://dv0qnd0aa7x5u" path="res://scenes/Cave/Cave.tscn" id="1_mw4qg"]
@@ -40,7 +40,7 @@ render_target_update_mode = 4
 [node name="Camera2D" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave" index="3"]
 position_smoothing_enabled = false
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" index="0"]
+[node name="background" type="TextureRect" parent="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" index="0"]
 z_index = -1
 offset_left = -129.0
 offset_right = 1551.0
@@ -85,5 +85,7 @@ autoplay = true
 [node name="scaryVoices" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_gb8pf")
 autoplay = true
+
+[connection signal="change_background" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" to="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" method="_on_camera_2d_change_background"]
 
 [editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]
