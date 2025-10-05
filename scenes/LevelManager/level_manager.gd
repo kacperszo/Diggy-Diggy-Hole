@@ -15,15 +15,8 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
+	generate_source(Vector2i(0, 1));
 
-	chunk_states[0][0] = ChunkStats.new()
-	chunk_states[0][0].moldiness = 1
-	chunk_states[0][0].x_cord = 0
-	chunk_states[0][0].y_cord = 0
-	chunk_states[7][7] = ChunkStats.new()
-	chunk_states[7][7].moldiness = 1
-	chunk_states[7][7].x_cord = 7
-	chunk_states[7][7].y_cord = 7
 
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
@@ -52,10 +45,12 @@ func choose_neighbour(x,y) -> void:
 	for dir in directions:
 		var nx:int = x + dir.x
 		var ny:int = y+ dir.y
-		if nx >= 0 and nx < 10 and ny >= 0 and ny < 10:
+		if nx >= 0 and nx < mountain_width_chunk and ny >= 0 and ny < mountain_height_chunk:
 			var neighbour: ChunkStats = chunk_states[ny][nx]
 			if neighbour == null:
-				neighbour = ChunkStats.new()
+				#neighbour = ChunkStats.new()
+				generate_source(Vector2i(nx, ny));
+				neighbour = chunk_states[ny][nx];
 				neighbour.x_cord=nx
 				neighbour.y_cord = ny
 				neighbours.append(neighbour)
@@ -146,7 +141,7 @@ func increase_growth() -> void:
 	# --- losowy wybór chunka z wagami ---
 	var chosen_chunk: ChunkStats = weighted_pool.pick_random()
 	if chosen_chunk.moldiness < 3:
-		chosen_chunk.moldiness += 1
+		chosen_chunk.increase_moldiness(1)
 	else:
 		choose_neighbour(chosen_chunk.x_cord, chosen_chunk.y_cord)
 
@@ -178,10 +173,13 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 
 		optional_chunk.should_be_regenerated = true;
 
-
-func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
-	increase_growth();
-	print_matrix();
+func generate_source(new_cell: Vector2i) -> void:
+	generate_map(new_cell)
+	chunk_states[1][0].moldiness = 1
+	chunk_states[1][0].x_cord = 0
+	chunk_states[1][0].y_cord = 1
+	
+func generate_map(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
 	var chunk_up: ChunkStats = null
@@ -208,6 +206,8 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		for y in range(TILES_WIDTH_PER_CHUNK):
 			row2.append(0)
 		tiles.append(row2);
+		
+	print_debug("tiles created")
 
 	if chunk_left != null:
 		if chunk_left.passage_right():
@@ -275,5 +275,14 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
+	
+
+func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
+	increase_growth();
+	print_matrix();
+	print(new_cell, ' Value of new cell')
+	generate_map(new_cell);
+	var col = new_cell[0]
+	var row = new_cell[1]
 	
 	mark_chunks_to_regenerate(row, col)
