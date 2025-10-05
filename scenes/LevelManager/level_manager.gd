@@ -15,10 +15,10 @@ func _ready():
 			row.append(null)
 		chunk_states.append(row);
 		
-	chunk_states[4][4] = ChunkStats.new()
-	chunk_states[4][4].moldiness = 1
-	chunk_states[4][4].x_cord = 4
-	chunk_states[4][4].y_cord = 4
+	chunk_states[0][0] = ChunkStats.new()
+	chunk_states[0][0].moldiness = 1
+	chunk_states[0][0].x_cord = 0
+	chunk_states[0][0].y_cord = 0
 	chunk_states[7][7] = ChunkStats.new()
 	chunk_states[7][7].moldiness = 1
 	chunk_states[7][7].x_cord = 7
