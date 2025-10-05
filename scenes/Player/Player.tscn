@@ -82,4 +82,4 @@ position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_tl8lu")
 animation = &"walk right"
 autoplay = "walk right"
-frame_progress = 0.0664741
+frame_progress = 0.3272918
