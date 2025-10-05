@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8wu3fuskusrb"]
+[gd_scene load_steps=8 format=3 uid="uid://c8wu3fuskusrb"]
 
 [ext_resource type="Texture2D" uid="uid://c7e0llaidmtbo" path="res://assets/background.png" id="1_iuu36"]
 [ext_resource type="PackedScene" uid="uid://dv0qnd0aa7x5u" path="res://scenes/Cave/Cave.tscn" id="1_mw4qg"]
 [ext_resource type="Shader" uid="uid://dpg4ewqk0wigt" path="res://scenes/VignetteShader.gdshader" id="2_mmojm"]
 [ext_resource type="AudioStream" uid="uid://rnbltdlc4t4u" path="res://assets/audio/soundTrack/long_soundtrack.mp3" id="3_iuu36"]
 [ext_resource type="AudioStream" uid="uid://dxhwx3mycpml7" path="res://assets/audio/soundTrack/szepty_long.mp3" id="4_gb8pf"]
+[ext_resource type="Script" uid="uid://crpk6h60nbkba" path="res://scenes/fire_counter.gd" id="4_mwwrp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iuu36"]
 shader = ExtResource("2_mmojm")
@@ -76,6 +77,7 @@ theme_override_font_sizes/font_size = 42
 text = "🔥  0/5"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("4_mwwrp")
 
 [node name="soundtrack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_iuu36")
@@ -85,5 +87,7 @@ autoplay = true
 [node name="scaryVoices" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_gb8pf")
 autoplay = true
+
+[connection signal="fire_count_incresed" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="CanvasLayer/Control/Label" method="_on_level_manager_fire_count_incresed"]
 
 [editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]

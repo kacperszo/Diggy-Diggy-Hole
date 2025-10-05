@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Player
-	
+
+signal player_interact(player_pos_in_tail_map: Vector2i)
+
 @export var move_speed: float = 100.0
 @export var climb_speed: float = 150.0
 @export var gravity: float = 600.0
@@ -38,3 +40,10 @@ func _physics_process(delta: float) -> void:
 
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	print_debug("Zmiana kamery do: ", new_cell)
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_released("interact"):
+		print_debug("Interact!")
+		var local_pos := objects_layer.to_local(global_position)
+		var tile_pos := objects_layer.local_to_map(local_pos)
+		player_interact.emit(tile_pos)

@@ -1,5 +1,6 @@
 extends Node2D
 
+signal fire_count_incresed(new_fire_count: int)
 @export var mountain_height_chunk = 50;
 @export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
@@ -8,7 +9,9 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 
 var is_first_chunk = true;
 
+var fire_count = 0
 var chunk_states = [];
+var camera_pos: Vector2i
 
 func _ready():
 	for a in range(mountain_width_chunk):
@@ -16,6 +19,7 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
+	camera_pos = Vector2i(0,0)
 
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
@@ -171,6 +175,8 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var chunk_right: ChunkStats = null
 	var chunk_up: ChunkStats = null
 	var chunk_down: ChunkStats = null
+	
+	camera_pos = new_cell
 
 	var col = new_cell[0]
 	var row = new_cell[1]
@@ -269,3 +275,20 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	new_chunk.draw(tile_map)
 
 	mark_chunks_to_regenerate(row, col)
+
+
+func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
+	var chunk = chunk_states[camera_pos.y][camera_pos.x]
+	if chunk == null: 
+		return
+	if fire_count >= 5:
+		return
+	if chunk.mold_lock:
+		return
+	chunk.mold_lock = true
+	# put light there
+	# TODO if runes room place other
+	# TODO jak Lidka skonczy sprite ogniska to dac zamiast spawnowanie drabin xD
+	tile_map.set_cell(player_pos_in_tail_map, 4, Vector2i(0,0))
+	fire_count+=1
+	fire_count_incresed.emit(fire_count)

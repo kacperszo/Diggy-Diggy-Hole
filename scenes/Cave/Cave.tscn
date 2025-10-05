@@ -31,7 +31,7 @@ texture_region_size = Vector2i(360, 360)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_negq6"]
 texture = ExtResource("1_v1alu")
 texture_region_size = Vector2i(360, 360)
-0:0/next_alternative_id = 2
+0:0/next_alternative_id = 3
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-180, -153.78305, -99.64513, -150.6446, -93.368286, 180, -180, 180)
 0:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(76.90186, -157.02475, 180, -154.60898, 180, 180, 79.31762, 180)
@@ -106,5 +106,6 @@ position_smoothing_enabled = true
 script = ExtResource("3_v1alu")
 player = NodePath("../Player")
 
+[connection signal="player_interact" from="Player" to="LevelManager" method="_on_player_player_interact"]
 [connection signal="cell_changed" from="Camera2D" to="LevelManager" method="_on_camera_2d_cell_changed"]
 [connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]
