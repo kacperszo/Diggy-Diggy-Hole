@@ -101,4 +101,8 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 			row2.append(tile)
 		tiles_stats.append(row2)
 	var new_chunk = ChunkStats.new(tiles_stats)
+	new_chunk.x_cord = row
+	new_chunk.y_cord = col
 	chunk_states[row][col] = new_chunk
+	
+	
