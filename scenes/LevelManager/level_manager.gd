@@ -1,6 +1,7 @@
 extends Node2D
 
 signal fire_count_incresed(new_fire_count: int)
+signal runic_fire_count_incresed(new_runic_fire_count: int)
 @export var mountain_height_chunk = 50;
 @export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
@@ -12,6 +13,7 @@ signal change_volume(volume: int)
 var is_first_chunk = true;
 
 var fire_count = 0
+var runic_fire_count = 0
 var chunk_states = [];
 var camera_pos: Vector2i
 
@@ -363,7 +365,11 @@ func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
 		return
 	chunk.mold_lock = true
 	# put light there
-	# TODO if runes room place other
+	if chunk.is_runic:
+		tile_map.set_cell(player_pos_in_tail_map, 11, Vector2i(0,0))
+		runic_fire_count+=1
+		runic_fire_count_incresed.emit(runic_fire_count)
+		return
 	tile_map.set_cell(player_pos_in_tail_map, 7, Vector2i(0,0))
 	fire_count+=1
 	fire_count_incresed.emit(fire_count)

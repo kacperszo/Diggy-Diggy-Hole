@@ -60,7 +60,7 @@ func draw(tile_map: TileMapLayer):
 	# Serce Gory narysuj
 
 	# Runowy pokoj narysuj
-	if is_runic:
+	if x_cord == 1 and y_cord==1:#TODO tutaj generuj losowo pokoj runowy, albo kilka takich
 		drew_runic_room(tile_map)
 	else:
 	# Zwykle narysuj pomieszczenie
@@ -106,16 +106,17 @@ func drew_runic_room(tile_map: TileMapLayer):
 		tile_map.set_cell(Vector2(4*y_cord+2, 3*x_cord-2), 5, Vector2i(0,0), 1)
 	if tiles[0][3].is_rock:
 		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-2), 5, Vector2i(0,0), 1)
-
 	# nayrsowac poochodnie
 	if not tiles[1][0].is_ladder and not tiles[1][0].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 10, Vector2i(0,0))
 	elif not tiles[1][1].is_ladder and not tiles[1][1].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 10, Vector2i(0,0))
 	elif not tiles[1][2].is_ladder and not tiles[1][2].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 10, Vector2i(0,0))
 	elif not tiles[1][3].is_ladder and not tiles[1][3].is_rock:
-		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 8, Vector2i(0,0))
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 10, Vector2i(0,0))
+	else:
+		tile_map.set_cell(Vector2(4*y_cord+3, 3*x_cord-1), 10, Vector2i(0,0))
 
 
 func draw_regular_room(tile_map: TileMapLayer):

@@ -1,12 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8wu3fuskusrb"]
+[gd_scene load_steps=11 format=3 uid="uid://c8wu3fuskusrb"]
 
 [ext_resource type="Texture2D" uid="uid://c7e0llaidmtbo" path="res://assets/background.png" id="1_iuu36"]
 [ext_resource type="PackedScene" uid="uid://dv0qnd0aa7x5u" path="res://scenes/Cave/Cave.tscn" id="1_mw4qg"]
+[ext_resource type="Script" uid="uid://pn6bubxa8a62" path="res://scenes/main_game.gd" id="1_x7hqj"]
 [ext_resource type="Shader" uid="uid://dpg4ewqk0wigt" path="res://scenes/VignetteShader.gdshader" id="2_mmojm"]
 [ext_resource type="AudioStream" uid="uid://rnbltdlc4t4u" path="res://assets/audio/soundTrack/long_soundtrack.mp3" id="3_iuu36"]
 [ext_resource type="AudioStream" uid="uid://dxhwx3mycpml7" path="res://assets/audio/soundTrack/szepty_long.mp3" id="4_gb8pf"]
-[ext_resource type="Script" path="res://scenes/fire_counter.gd" id="4_mwwrp"]
-[ext_resource type="Script" uid="uid://duvqjx7tn2wt" path="res://scenes/scary_voices.gd" id="5_mwwrp"]
+[ext_resource type="Script" uid="uid://crpk6h60nbkba" path="res://scenes/fire_counter.gd" id="4_mwwrp"]
+[ext_resource type="Script" path="res://scenes/scary_voices.gd" id="5_mwwrp"]
+[ext_resource type="Script" uid="uid://dwf5bpdclmbfl" path="res://scenes/win.gd" id="6_owcan"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iuu36"]
 shader = ExtResource("2_mmojm")
@@ -15,6 +17,7 @@ shader_parameter/intensity = 0.8
 shader_parameter/softness = 0.5
 
 [node name="MainGame" type="Node2D"]
+script = ExtResource("1_x7hqj")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -80,6 +83,24 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_mwwrp")
 
+[node name="win" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 489.0
+offset_top = 342.0
+offset_right = 1385.0
+offset_bottom = 780.0
+color = Color(0.11119685, 0.11119684, 0.11119684, 1)
+script = ExtResource("6_owcan")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/win"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 142.0
+offset_right = 724.0
+offset_bottom = 307.0
+theme_override_font_sizes/font_size = 120
+text = "You won!"
+
 [node name="soundtrack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_iuu36")
 volume_db = 4.038
@@ -92,6 +113,8 @@ script = ExtResource("5_mwwrp")
 
 [connection signal="change_volume" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="scaryVoices" method="_on_level_manager_change_volume"]
 [connection signal="fire_count_incresed" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="CanvasLayer/Control/Label" method="_on_level_manager_fire_count_incresed"]
+[connection signal="runic_fire_count_incresed" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="." method="_on_level_manager_runic_fire_count_incresed"]
+[connection signal="runic_fire_count_incresed" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" to="CanvasLayer/Control/win" method="_on_level_manager_runic_fire_count_incresed"]
 [connection signal="change_background" from="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/Camera2D" to="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave/LevelManager" method="_on_camera_2d_change_background"]
 
 [editable path="CanvasLayer/Control/SubViewportContainer/SubViewport/Cave"]
