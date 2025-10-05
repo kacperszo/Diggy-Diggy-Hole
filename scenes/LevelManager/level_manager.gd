@@ -1,10 +1,12 @@
 extends Node2D
 
-@export var mountain_height_chunk = 10;
-@export var mountain_width_chunk = 20;
+@export var mountain_height_chunk = 50;
+@export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
 const TILES_WIDTH_PER_CHUNK = 4;
 const TILES_HEIGHT_PER_CHUNK = 3;
+
+var is_first_chunk = true;
 
 var chunk_states = [];
 
@@ -14,20 +16,9 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
-
+	
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
-#func print_matrix() -> void:
-	#for y in range(mountain_height_chunk):
-		#var line := ""
-		#for x in range(mountain_width_chunk):
-			#var chunk: ChunkStats = chunk_states[x][y]
-			#if chunk == null:
-				#line += "0 "
-			#else:
-				#line += str(chunk.moldiness) + " "
-		#print(line)
-	#print("\n")  # odstęp między iteracjami
 
 func choose_neighbour(x,y) -> void:
 	var neighbours: Array[ChunkStats] = []
@@ -139,7 +130,42 @@ func increase_growth() -> void:
 	else:
 		choose_neighbour(chosen_chunk.x_cord, chosen_chunk.y_cord)
 
+func safe_access_chunks(x, y):
+	if x >= 0 and x < mountain_width_chunk and y >= 0  and y < mountain_height_chunk:
+		return chunk_states[x][y]
+	else:
+		return null
 
+func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
+	var directions := [
+		Vector2i(0, -2),
+		Vector2i(0, 2),
+		Vector2i(1, -2),
+		Vector2i(-1, -2),
+		Vector2i(1, 2),
+		Vector2i(-1, 2),
+		Vector2i(-2, -1),
+		Vector2i(-2, -2),
+		Vector2i(-2, 1),
+		Vector2i(-2, 0),
+		Vector2i(-2, 2),
+		Vector2i(2, -1),
+		Vector2i(2, -2),
+		Vector2i(2, 0),
+		Vector2i(2, 1),
+		Vector2i(2, 2),
+	]
+	
+	for i in range(directions.size()):
+		var x = directions[i][0] + current_chunk_x
+		var y = directions[i][1] + current_chunk_y
+		
+		var optional_chunk = safe_access_chunks(x, y)
+		if optional_chunk == null:
+			continue
+		
+		optional_chunk.should_be_regenerated = true;
+		
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
@@ -149,17 +175,17 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var col = new_cell[0]
 	var row = new_cell[1]
 
-	if chunk_states[row][col] != null:
+	if chunk_states[row][col] != null and not chunk_states[row][col].should_be_regenerated:
 		return
 
 	if col - 1 >= 0:
 		chunk_left = chunk_states[row][col-1]
 	if col + 1 < mountain_width_chunk:
 		chunk_right = chunk_states[row][col+1]
-	if row + 1 < mountain_height_chunk:
-		chunk_up = chunk_states[row+1][col]
-	if new_cell[1]-1 >= 0:
-		chunk_down = chunk_states[row-1][col]
+	if row - 1 >= 0:
+		chunk_up = chunk_states[row-1][col]
+	if row + 1 >= mountain_height_chunk:
+		chunk_down = chunk_states[row+1][col]
 
 	var tiles = []
 	for x in range(TILES_HEIGHT_PER_CHUNK):
@@ -183,14 +209,15 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 			tiles[1][-1] = 1
 
 	if chunk_up != null:
-		if chunk_up.passage_down_index():
+		print('chunk up', chunk_up.passage_down_index())
+		if chunk_up.passage_down_index() != null:
 			tiles[0][chunk_up.passage_down_index()] = 1
 	else:
 		if [true, false].pick_random():
 			tiles[0][randi() % (TILES_WIDTH_PER_CHUNK - 1)] = 1
 
 	if chunk_down != null:
-		if chunk_down.passage_up_index():
+		if chunk_down.passage_up_index() != null:
 			tiles[2][chunk_up.passage_up_index()] = 1
 	else:
 		if [true, false].pick_random():
@@ -220,13 +247,22 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 				tile.is_ladder = true
 			if tiles[x][y] == 0:
 				tile.is_rock = true
+			if x == 1 && tiles[1][y] == 1 && tiles[0][y] == 1:
+				tile.is_ladder = true
+				
+			if is_first_chunk and x == 1 and y == 1:
+				tile.is_rock = false;
+				is_first_chunk = false;
 			row2.append(tile)
 		tiles_stats.append(row2)
+		
 	var new_chunk = ChunkStats.new()
 	new_chunk.tiles = tiles_stats
 	new_chunk.x_cord = row
 	new_chunk.y_cord = col
+	if chunk_states[row][col] != null:
+		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
-
 	
+	mark_chunks_to_regenerate(row, col)
