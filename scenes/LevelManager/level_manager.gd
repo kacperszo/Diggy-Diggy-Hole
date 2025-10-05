@@ -1,5 +1,6 @@
 extends Node2D
 
+signal fire_count_incresed(new_fire_count: int)
 @export var mountain_height_chunk = 50;
 @export var mountain_width_chunk = 50;
 @export var tile_map: TileMapLayer
@@ -8,7 +9,9 @@ const TILES_HEIGHT_PER_CHUNK = 3;
 
 var is_first_chunk = true;
 
+var fire_count = 0
 var chunk_states = [];
+var camera_pos: Vector2i
 
 func _ready():
 	for a in range(mountain_width_chunk):
@@ -17,8 +20,10 @@ func _ready():
 			row.append(null)
 		chunk_states.append(row);
 	generate_source(Vector2i(0, 1));
+	generate_runic_room(Vector2i(1, 1));
 	is_first_chunk = true;
 
+	camera_pos = Vector2i(0,0)
 
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
@@ -61,7 +66,7 @@ func choose_neighbour(x,y) -> void:
 
 	if neighbours.size() > 0:
 		var chosen: ChunkStats = neighbours.pick_random()
-		chosen.moldiness = 1
+		chosen.set_moldiness()
 		chunk_states[chosen.y_cord][chosen.x_cord] = chosen
 		#print('row: ',y, 'col ', x)
 		#chunk_states[y][x].children.append(chosen)
@@ -171,10 +176,8 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 		Vector2i(2, -1),
 		Vector2i(2, -2),
 		Vector2i(2, 0),
-		Vector2i(1, 1),
-		Vector2i(1, -1),
-		Vector2i(-1, -1),
-		Vector2i(-1, 1)
+		Vector2i(2, 1),
+		Vector2i(2, 2),
 	]
 
 	for i in range(directions.size()):
@@ -189,15 +192,23 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 
 func generate_source(new_cell: Vector2i) -> void:
 	generate_map(new_cell)
-	chunk_states[1][0].moldiness = 1
-	chunk_states[1][0].x_cord = 0
-	chunk_states[1][0].y_cord = 1
+	chunk_states[new_cell[1]][new_cell[0]].set_moldiness()
+	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
+	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
+	
+func generate_runic_room(new_cell: Vector2i) -> void:
+	generate_map(new_cell)
+	chunk_states[new_cell[1]][new_cell[0]].is_runic = true
+	chunk_states[new_cell[1]][new_cell[0]].x_cord = new_cell[1]
+	chunk_states[new_cell[1]][new_cell[0]].y_cord = new_cell[0]
 
 func generate_map(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
 	var chunk_up: ChunkStats = null
 	var chunk_down: ChunkStats = null
+
+	camera_pos = new_cell
 
 	var col = new_cell[0]
 	var row = new_cell[1]
@@ -304,3 +315,20 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var row = new_cell[1]
 
 	mark_chunks_to_regenerate(row, col)
+
+
+func _on_player_player_interact(player_pos_in_tail_map: Vector2i) -> void:
+	var chunk = chunk_states[camera_pos.y][camera_pos.x]
+	if chunk == null:
+		return
+	if fire_count >= 5:
+		return
+	if chunk.mold_lock:
+		return
+	chunk.mold_lock = true
+	# put light there
+	# TODO if runes room place other
+	# TODO jak Lidka skonczy sprite ogniska to dac zamiast spawnowanie drabin xD
+	tile_map.set_cell(player_pos_in_tail_map, 4, Vector2i(0,0))
+	fire_count+=1
+	fire_count_incresed.emit(fire_count)

@@ -50,8 +50,12 @@ func get_type():
 		return TerrainType.MOLDED
 		
 func increase_moldiness(value:int):
-	if not mold_lock:
+	if not mold_lock and not is_runic:
 		moldiness += value;
+
+func set_moldiness():
+	if not mold_lock and not is_runic:
+		moldiness = 1;
 		
 func draw(tile_map: TileMapLayer):
 	# Serce Gory narysuj
