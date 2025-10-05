@@ -78,9 +78,5 @@ position_smoothing_enabled = true
 script = ExtResource("3_v1alu")
 player = NodePath("../Player")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
 [connection signal="cell_changed" from="Camera2D" to="LevelManager" method="_on_camera_2d_cell_changed"]
 [connection signal="cell_changed" from="Camera2D" to="Player" method="_on_camera_2d_cell_changed"]

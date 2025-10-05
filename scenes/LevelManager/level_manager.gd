@@ -16,7 +16,7 @@ func _ready():
 		for b in range(mountain_height_chunk):
 			row.append(null)
 		chunk_states.append(row);
-	
+
 func update_tile(x: int, y: int, new_value: ChunkStats):
 	chunk_states[x][y] = new_value	;
 
@@ -155,17 +155,17 @@ func mark_chunks_to_regenerate(current_chunk_x, current_chunk_y):
 		Vector2i(2, 1),
 		Vector2i(2, 2),
 	]
-	
+
 	for i in range(directions.size()):
 		var x = directions[i][0] + current_chunk_x
 		var y = directions[i][1] + current_chunk_y
-		
+
 		var optional_chunk = safe_access_chunks(x, y)
 		if optional_chunk == null:
 			continue
-		
+
 		optional_chunk.should_be_regenerated = true;
-		
+
 func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var chunk_left: ChunkStats = null
 	var chunk_right: ChunkStats = null
@@ -175,7 +175,7 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var col = new_cell[0]
 	var row = new_cell[1]
 
-	if chunk_states[row][col] != null and not chunk_states[row][col].should_be_regenerated:
+	if chunk_states[row][col] != null and chunk_states[row][col].should_be_regenerated==false:
 		return
 
 	if col - 1 >= 0:
@@ -209,7 +209,6 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 			tiles[1][-1] = 1
 
 	if chunk_up != null:
-		print('chunk up', chunk_up.passage_down_index())
 		if chunk_up.passage_down_index() != null:
 			tiles[0][chunk_up.passage_down_index()] = 1
 	else:
@@ -235,6 +234,10 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 	var leftmost = ones_positions.min()
 	var rightmost = ones_positions.max()
 
+	if is_first_chunk:
+		leftmost = 0
+		rightmost = 3
+
 	for x in range(leftmost, rightmost + 1):
 		tiles[1][x] = 1
 
@@ -249,13 +252,13 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 				tile.is_rock = true
 			if x == 1 && tiles[1][y] == 1 && tiles[0][y] == 1:
 				tile.is_ladder = true
-				
+
 			if is_first_chunk and x == 1 and y == 1:
 				tile.is_rock = false;
 				is_first_chunk = false;
 			row2.append(tile)
 		tiles_stats.append(row2)
-		
+
 	var new_chunk = ChunkStats.new()
 	new_chunk.tiles = tiles_stats
 	new_chunk.x_cord = row
@@ -264,5 +267,5 @@ func _on_camera_2d_cell_changed(new_cell: Vector2i) -> void:
 		new_chunk.moldiness = chunk_states[row][col].moldiness
 	chunk_states[row][col] = new_chunk
 	new_chunk.draw(tile_map)
-	
+
 	mark_chunks_to_regenerate(row, col)
